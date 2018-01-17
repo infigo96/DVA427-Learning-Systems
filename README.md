@@ -1,1 +1,1 @@
-# DVA427-Learning-Systems
+This is our project for DVA427-Learning-Systems and will include all our assignments
