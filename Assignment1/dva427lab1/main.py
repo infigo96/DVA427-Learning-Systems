@@ -15,13 +15,13 @@ data[:,4] = data[:,3]
 data[:,3] = 1
 
 #data[1,:] get first row
-o1 = sigmoid(np.transpose(weights[:,0:4])*np.transpose(data[:,0:4]))
-print("o0" +str(o1))
-for i in range(0,1500):
-    delta = o1*(1-o1)*(0.5 + 0.25*data[i,4]-o1)
+Sogmod = sigmoid((data[,0:4]).dot(np.transpose(weights[:,0:4])))
+print("o0" +str(Sogmod))
+#for i in range(0,1500):
+   # delta = o1(i)*(1-o1(i))*(0.5 + 0.25*data[i,4]-o1(i))
 
 
-    weights =weights + 0.05*delta*data[i,0:4]
+    #weights =weights + 0.05*delta*data[i,0:4]
 #    print(i)
 #print("Fucktard  " + str(o1))
 #print("Deltatard  " + str(delta))
@@ -29,15 +29,14 @@ for i in range(0,1500):
 
 
 
-for i in range(1500,2200):
-    val1 = sigmoid(np.dot(weights[0, 0:4], (data[i, 0:4])))
-    if val1 >= 0.5 and data[i,4] == 1:
-        correct+=1
-    elif val1 < 0.5 and data[i, 4] == -1:
-        correct+=1
-    #print(val1)
-    #for j in range (0,4):
-
-print(correct)
-print(correct/700)
+#for i in range(1500,2200):
+#    #val1 = sigmoid(np.dot(weights[0, 0:4], (data[i, 0:4])))
+#    if val1 >= 0.5 and data[i,4] == 1:
+#        correct+=1
+#    elif val1 < 0.5 and data[i, 4] == -1:
+#        correct+=1
+#    #print(val1)
+#
+#print(correct)
+#print(correct/700)
 
