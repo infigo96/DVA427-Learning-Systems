@@ -15,7 +15,7 @@ data[:,4] = data[:,3]
 data[:,3] = 1
 
 #data[1,:] get first row
-Sogmod = sigmoid((data[,0:4]).dot(np.transpose(weights[:,0:4])))
+Sogmod = sigmoid((data[:,0:4]).dot(np.transpose(weights[:,0:4])))
 print("o0" +str(Sogmod))
 #for i in range(0,1500):
    # delta = o1(i)*(1-o1(i))*(0.5 + 0.25*data[i,4]-o1(i))
