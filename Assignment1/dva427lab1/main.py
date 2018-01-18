@@ -3,7 +3,7 @@ import time
 from sympy import *
 
 correct = 0
-#np.random.seed(1)
+np.random.seed(0)
 weights = 2* np.random.random_sample((1, 4)) - 1
 #print(weights)
 
@@ -33,14 +33,20 @@ time.sleep(2)
 #--------------------------------------------------------------------------------------------
 
 
-for j in range(0,10000):
-  correct = 0; # initalize correct
+for j in range(0,1000):
+  correct = 0 # initalize correct
+  alive = 0
+  death = 0
+  deathcorrect = 0
+  survivedcorrect = 0
+
+
   Sogmod = sigmoid((data[:1500,0:4]).dot(np.transpose(weights[:,0:4])))
   #print("Sogmoid" +str(Sogmod))
   delta = (Sogmod*(1-Sogmod))*np.transpose(0.5 + 0.25*(data[:1500,4])-np.transpose(Sogmod))
   #print("delta" + str(delta))
 
-  weights =weights + 0.00001*np.transpose(delta[:1500,:]).dot(data[:1500,0:4])
+  weights =weights + 0.0001*np.transpose(delta[:1500,:]).dot(data[:1500,0:4])
   #print("weights" + str(weights))
   #print(weights)
 
@@ -50,13 +56,22 @@ for j in range(0,10000):
   for i in range(1500,2200):
 
     #val = sigmoid(np.dot(weights[0, 0:4], (data[i, 0:4])))
-    if val[i-1500] >= 0.5 and data[i,4] == 1:
-      correct+=1
-    elif val[i-1500] < 0.5 and data[i, 4] == -1:
-      correct+=1
+    if data[i,4] == 1:
+      alive +=1
+      if val[i - 1500] >= 0.5:
+        survivedcorrect+=1
+    else:
+      death+=1
+      if val[i - 1500] < 0.5:
+        deathcorrect+=1
 
 
   #print(correct)
-  print(correct/700)
+  print("SC: " + str(survivedcorrect / death) + "  DC: " + str(deathcorrect / death) + "  tot: " + str((survivedcorrect + deathcorrect) / (alive + death)))
   #time.sleep(1)
 
+######
+print("Alive: " + str(survivedcorrect/death) + "  Dead: " + str(deathcorrect/death) + "  TOT: " + str((survivedcorrect+deathcorrect)/(alive+death)))
+#SurvivalrateFancy = sigmoid((data[23,0:4]).dot(np.transpose(weights[:,0:4])))
+#print('SurvivalrateFancy: ')
+#print(SurvivalrateFancy)
