@@ -3,7 +3,7 @@ import time
 from sympy import *
 
 correct = 0
-np.random.seed(0)
+#np.random.seed(0)
 weights = 2* np.random.random_sample((1, 4)) - 1
 #print(weights)
 
@@ -53,9 +53,18 @@ for j in range(0,1000):
 
   val = sigmoid(np.matmul(data[1500:2201,0:4],np.transpose(weights[:,0:4]))) #2201 did not work
   #print(val)
+  for i in range(0, 1500):
+
+    if data[i, 4] == 1:
+
+      if Sogmod[i] >= 0.5:
+        correct+=1
+    else:
+
+      if Sogmod[i] < 0.5:
+        correct+=1
   for i in range(1500,2200):
 
-    #val = sigmoid(np.dot(weights[0, 0:4], (data[i, 0:4])))
     if data[i,4] == 1:
       alive +=1
       if val[i - 1500] >= 0.5:
@@ -67,11 +76,12 @@ for j in range(0,1000):
 
 
   #print(correct)
-  print("SC: " + str(survivedcorrect / death) + "  DC: " + str(deathcorrect / death) + "  tot: " + str((survivedcorrect + deathcorrect) / (alive + death)))
+  print("ERR: " + str((1500-correct)/1500)+ "  SC: " + str(survivedcorrect / death) + "  DC: " + str(deathcorrect / death) + "  tot: " + str((survivedcorrect + deathcorrect) / (alive + death)))
   #time.sleep(1)
 
 ######
 print("Alive: " + str(survivedcorrect/death) + "  Dead: " + str(deathcorrect/death) + "  TOT: " + str((survivedcorrect+deathcorrect)/(alive+death)))
+print('Accuracy is: ' + str((survivedcorrect+deathcorrect)/700))
 #SurvivalrateFancy = sigmoid((data[23,0:4]).dot(np.transpose(weights[:,0:4])))
 #print('SurvivalrateFancy: ')
 #print(SurvivalrateFancy)
