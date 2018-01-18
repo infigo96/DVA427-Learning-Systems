@@ -9,17 +9,16 @@ weights = 2* np.random.random_sample((1, 4)) - 1
 def sigmoid(x):
   return 1 / (1 + np.exp(-x))
 
-data = np.genfromtxt('assignment 1 titanic.dat', delimiter=',')
+data = np.genfromtxt('./assignment 1 titanic.dat', delimiter=',')
 data = np.c_[ data, np.ones(len(data))]
 data[:,4] = data[:,3]
 data[:,3] = 1
 
-#data[1,:] get first row
 Sogmod = sigmoid((data[:,0:4]).dot(np.transpose(weights[:,0:4])))
-print("o0" +str(Sogmod))
+print("Sogmoid" +str(Sogmod))
 #for i in range(0,1500):
-   # delta = o1(i)*(1-o1(i))*(0.5 + 0.25*data[i,4]-o1(i))
-
+delta = (0.5 + 0.25*np.transpose(data[:,4])-Sogmod).dot(Sogmod*(1-Sogmod))
+print("delta" + str(delta))
 
     #weights =weights + 0.05*delta*data[i,0:4]
 #    print(i)
