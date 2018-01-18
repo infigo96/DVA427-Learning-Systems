@@ -3,7 +3,7 @@ import time
 from sympy import *
 
 correct = 0
-np.random.seed(1)
+#np.random.seed(1)
 weights = 2* np.random.random_sample((1, 4)) - 1
 #print(weights)
 
@@ -29,18 +29,18 @@ for i in range(1500,2200):
 
   #print(correct)
 print(correct/700)
-time.sleep(1)
+time.sleep(2)
 #--------------------------------------------------------------------------------------------
 
 
-for j in range(0,10):
+for j in range(0,10000):
   correct = 0; # initalize correct
   Sogmod = sigmoid((data[:1500,0:4]).dot(np.transpose(weights[:,0:4])))
   #print("Sogmoid" +str(Sogmod))
   delta = (Sogmod*(1-Sogmod))*np.transpose(0.5 + 0.25*(data[:1500,4])-np.transpose(Sogmod))
   #print("delta" + str(delta))
 
-  weights =weights + 0.01*np.transpose(delta[:1500,:]).dot(data[:1500,0:4])
+  weights =weights + 0.00001*np.transpose(delta[:1500,:]).dot(data[:1500,0:4])
   #print("weights" + str(weights))
   #print(weights)
 
@@ -58,5 +58,5 @@ for j in range(0,10):
 
   #print(correct)
   print(correct/700)
-  time.sleep(1)
+  #time.sleep(1)
 
