@@ -17,7 +17,7 @@ data[:,3] = 1
 Sogmod = sigmoid((data[:,0:4]).dot(np.transpose(weights[:,0:4])))
 print("Sogmoid" +str(Sogmod))
 #for i in range(0,1500):
-delta = (0.5 + 0.25*np.transpose(data[:,4])-Sogmod).dot(Sogmod*(1-Sogmod))
+delta = (Sogmod*(1-Sogmod))*np.transpose(0.5 + 0.25*(data[:,4])-np.transpose(Sogmod))
 print("delta" + str(delta))
 
     #weights =weights + 0.05*delta*data[i,0:4]
