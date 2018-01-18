@@ -20,8 +20,8 @@ print("Sogmoid" +str(Sogmod))
 delta = (Sogmod*(1-Sogmod))*np.transpose(0.5 + 0.25*(data[:,4])-np.transpose(Sogmod))
 print("delta" + str(delta))
 
-    #weights =weights + 0.05*delta*data[i,0:4]
-#    print(i)
+weights =weights + 0.05*0.05*np.transpose(delta[:1500,:]).dot(data[:1500,0:4])
+print("weights" + str(weights))
 #print("Fucktard  " + str(o1))
 #print("Deltatard  " + str(delta))
 #print(weights)
