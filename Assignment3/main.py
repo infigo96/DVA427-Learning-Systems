@@ -3,9 +3,7 @@ import time
 from sympy import *
 
 def NewPop(sizePop):
-    Pop = np.zeros((3, 5))
-    for i in range (0, 3):
-        Pop[i,:] = np.random.permutation(5)
+    Pop = [np.random.permutation(5) for i in np.arange(3)]
     return Pop
 np.random.seed(42)
 
