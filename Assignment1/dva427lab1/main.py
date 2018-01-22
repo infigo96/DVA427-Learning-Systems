@@ -1,6 +1,7 @@
 import numpy as np
 import time
 from sympy import *
+import os
 
 correct = 0
 #np.random.seed(0)
@@ -10,6 +11,9 @@ weights = 2* np.random.random_sample((1, 4)) - 1
 def sigmoid(x):
   return 1 / (1 + np.exp(-x))
 
+abspath = os.path.abspath(__file__)
+dname = os.path.dirname(abspath)
+os.chdir(dname)
 data = np.genfromtxt('./assignment 1 titanic.dat', delimiter=',')
 data = np.c_[ data, np.ones(len(data))]
 data[:,4] = data[:,3]
@@ -46,7 +50,7 @@ for j in range(0,1000):
   delta = (Sogmod*(1-Sogmod))*np.transpose(0.5 + 0.25*(data[:1500,4])-np.transpose(Sogmod))
   #print("delta" + str(delta))
 
-  weights =weights + 0.0001*np.transpose(delta[:1500,:]).dot(data[:1500,0:4])
+  weights =weights + 0.00003*np.transpose(delta[:1500,:]).dot(data[:1500,0:4])
   #print("weights" + str(weights))
   #print(weights)
 
