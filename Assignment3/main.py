@@ -13,7 +13,7 @@ def Distance(a, b):
 
 
 def routeDistance(DistanceMatrix, Individual):
-    return [DistanceMatrix[i][i]for i in (Individual[:,0])]
+    return [DistanceMatrix[Individual[i,0]][Individual[i+1,0]]for i in np.arange(51)]
 
 #np.random.seed(42)
 
