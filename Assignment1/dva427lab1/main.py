@@ -50,7 +50,7 @@ for j in range(0,1000):
   delta = (Sogmod*(1-Sogmod))*np.transpose(0.5 + 0.25*(data[:1500,4])-np.transpose(Sogmod))
   #print("delta" + str(delta))
 
-  weights =weights + 0.00003*np.transpose(delta[:1500,:]).dot(data[:1500,0:4])
+  weights =weights + 0.00005*np.transpose(delta[:1500,:]).dot(data[:1500,0:4])
   #print("weights" + str(weights))
   #print(weights)
 
@@ -83,9 +83,9 @@ for j in range(0,1000):
   print("ERR: " + str((1500-correct)/1500)+ "  SC: " + str(survivedcorrect / death) + "  DC: " + str(deathcorrect / death) + "  tot: " + str((survivedcorrect + deathcorrect) / (alive + death)))
   #time.sleep(1)
 
-######
-print("Alive: " + str(survivedcorrect/death) + "  Dead: " + str(deathcorrect/death) + "  TOT: " + str((survivedcorrect+deathcorrect)/(alive+death)))
-print('Accuracy is: ' + str((survivedcorrect+deathcorrect)/700))
+###############
+#print("Alive: " + str(survivedcorrect/death) + "  Dead: " + str(deathcorrect/death) + "  TOT: " + str((survivedcorrect+deathcorrect)/(alive+death)))
+#print('Accuracy is: ' + str((survivedcorrect+deathcorrect)/700))
 #SurvivalrateFancy = sigmoid((data[23,0:4]).dot(np.transpose(weights[:,0:4])))
 #print('SurvivalrateFancy: ')
 #print(SurvivalrateFancy)
