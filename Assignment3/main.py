@@ -13,7 +13,10 @@ def Distance(a, b):
 
 
 def routeDistance(DistanceMatrix, Individual):
-    return [DistanceMatrix[Individual[i,0]][Individual[i+1,0]]for i in np.arange(51)]
+    a = np.arange(len(Individual))
+    b = a + 1
+    b[len(Individual) - 1] = 0
+    return np.sum([DistanceMatrix[Individual[a[i],0]][Individual[b[i],0]]for i in np.arange(len(Individual))])
 
 #np.random.seed(42)
 
@@ -23,7 +26,9 @@ os.chdir(dname)
 data = np.genfromtxt('./berlin.txt', delimiter=',')
 distanceMatrix= [[Distance(i, j) for i in data] for j in data]
 #print(distanceMatrix)
-print(routeDistance(distanceMatrix, np.transpose(NewPop(1))))
+hej = routeDistance(distanceMatrix, np.transpose(NewPop(1)))
+print(hej)
+
 #Pop = NewPop(1)
 #print(Pop)
 
