@@ -51,15 +51,15 @@ distanceMatrix= [[Distance(i, j) for i in data] for j in data]
 
 #tournament:
 #select from population of groups of 4
-#
-#mutate winners
+#from this group save the best 2, then cross them
+#mutate children
 
 # elitism, remove x number of worst from population
 # Population = killWeak()
 
 
 
-#########################
+#####################################
 
 test = returnBest(NewPop(5), distanceMatrix, 1)
 print("totis" +str(test))
