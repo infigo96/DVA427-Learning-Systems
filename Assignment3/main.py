@@ -40,6 +40,11 @@ def tournament(DistanceMatrix, Population):
     #how to split into groups of 4 each?
 
 
+#def crossover......
+
+#def mutate........
+
+
 
 #np.random.seed(42)
 
@@ -59,6 +64,7 @@ oldPop = NewPop(popSize)
 #Good place for plotting graphics here
 
 #check if to stop
+#if routeDistance(DistanceMatrix, returnBest(Pop, DistanceMatrix, 1)) < *GOOD DISTANCE*
 
 #tournament:
 #select from population of groups of 4
