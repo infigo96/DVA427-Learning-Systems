@@ -4,8 +4,8 @@ import time
 from sympy import *
 
 def NewPop(sizePop):
-    Pop = [np.random.permutation(52) for i in np.arange(sizePop)]
-    return Pop
+    return [np.random.permutation(52) for i in np.arange(sizePop)]
+
 
 def Distance(a, b):
     return sqrt((b[0]-a[0])**2+(b[1]-a[1])**2)
@@ -20,12 +20,14 @@ def returnBest(Pop, DistanceMatrix, numberOfBest):
 
 
 def routeDistance(DistanceMatrix, Individual):
-    print(Individual)
-    a = np.arange(len(Individual))
+    #print("sak 2 fyt  " + str(Individual[13]))
+    lenes = len(np.transpose(Individual))
+    #print("sak" + str(Individual))
+    #print("lenes " + str(lenes))
+    a = np.arange(lenes)
     b = a + 1
-    b[len(Individual) - 1] = 0
-    return 1
-    #return np.sum([DistanceMatrix[Individual[a[i],0]][Individual[b[i],0]]for i in np.arange(len(Individual))])
+    b[lenes - 1] = 0
+    return np.sum([DistanceMatrix[Individual[a[i]]][Individual[b[i]]] for i in np.arange(lenes)])
 
 #np.random.seed(42)
 
@@ -35,11 +37,11 @@ os.chdir(dname)
 data = np.genfromtxt('./berlin.txt', delimiter=',')
 distanceMatrix= [[Distance(i, j) for i in data] for j in data]
 #print(distanceMatrix)
-#hej = routeDistance(distanceMatrix, np.transpose(NewPop(1)))
+#test = routeDistance(distanceMatrix, (NewPop(1)))
 #print(hej)
 
 test = returnBest(NewPop(5), distanceMatrix, 1)
-#print(test)
+print("totis" +str(test))
 #Pop = NewPop(1)
 #print(Pop)
 
