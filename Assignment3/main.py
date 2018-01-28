@@ -29,6 +29,7 @@ def routeDistance(DistanceMatrix, Individual):
     b[lenes - 1] = 0
     return np.sum([DistanceMatrix[Individual[a[i]]][Individual[b[i]]] for i in np.arange(lenes)])
 
+
 #np.random.seed(42)
 
 abspath = os.path.abspath(__file__)
@@ -39,6 +40,26 @@ distanceMatrix= [[Distance(i, j) for i in data] for j in data]
 #print(distanceMatrix)
 #test = routeDistance(distanceMatrix, (NewPop(1)))
 #print(hej)
+####################################
+#generate population
+
+#loop start
+
+#Good place for plotting graphics here
+
+#check if to stop
+
+#tournament:
+#select from population of groups of 4
+#
+#mutate winners
+
+# elitism, remove x number of worst from population
+# Population = killWeak()
+
+
+
+#########################
 
 test = returnBest(NewPop(5), distanceMatrix, 1)
 print("totis" +str(test))
