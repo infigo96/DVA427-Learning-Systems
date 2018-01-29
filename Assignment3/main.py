@@ -4,10 +4,11 @@ import time
 from sympy import *
 
 popSize = 40 #use multiple of 4 as popSize
+numberOfBest = 2
 
 
 def NewPop(sizePop):
-    return [np.random.permutation(52) for i in np.arange(sizePop)]
+    return np.array([np.random.permutation(52) for i in np.arange(sizePop)])
 
 
 def Distance(a, b):
@@ -20,7 +21,7 @@ def killWeak(Pop, DistanceMatrix, numberWeak): #ej testad
     return returnBest(Pop, DistanceMatrix, len(Pop)-numberWeak)
 
 def returnBest(Pop, DistanceMatrix, numberOfBest):
-    return sorted(list(Pop), key=lambda x: routeDistance(DistanceMatrix, x))[:numberOfBest]
+    return np.array(sorted(list(Pop), key=lambda x: routeDistance(DistanceMatrix, x))[:numberOfBest])
 
 
 def routeDistance(DistanceMatrix, Individual):
@@ -34,13 +35,19 @@ def routeDistance(DistanceMatrix, Individual):
     return np.sum([DistanceMatrix[Individual[a[i]]][Individual[b[i]]] for i in np.arange(lenes)])
 
 def tournament(DistanceMatrix, Population):
+    print(Population[3][:])
     for i in range(0, len(Population), 4):
         print(i)
+        Population[i:i+3,:] = crossover(DistanceMatrix, Population[i:i+3,:])
         #
     #how to split into groups of 4 each?
 
 
-#def crossover......
+def crossover(DistanceMatrix, Population):
+    parents = returnBest(Population, DistanceMatrix, 4)
+    #DO CROSSOVERSHIT
+    children = parents # should not work, only 2 elements
+    return parents
 # return
 
 #def mutate........
@@ -72,10 +79,12 @@ oldPop = NewPop(popSize)
 #from this group save the best 2, then cross them
 #mutate children
 #after this we will have  nextPop which is the children of the old Population
+newPop = tournament(distanceMatrix, oldPop) #needs to be shuffled at some point
 
 # elitism, remove x number of worst from population
-# Population = nextPop + returnBest(Pop, DistanceMatrix, numberOfBest) # we add some of the old pop
-# Population = killWeak(Population, DistanceMatrix, numberOfBest) # we kill off the weakest
+#Population = newPop + returnBest(Pop, distanceMatrix, numberOfBest) # we add some of the old pop
+newPop = np.vstack([newPop, returnBest(oldPop, distanceMatrix, numberOfBest)])
+oldPop = killWeak(newPop, distanceMatrix, numberOfBest) # we kill off the weakest
 
 #end loop
 
@@ -83,7 +92,7 @@ oldPop = NewPop(popSize)
 #####################################
 
 test = returnBest(NewPop(5), distanceMatrix, 1)
-print("totis" +str(test))
+print(test)
 #Pop = NewPop(1)
 #print(Pop)
 
