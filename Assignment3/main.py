@@ -39,7 +39,8 @@ def tournament(DistanceMatrix, Population):
     for i in range(0, len(Population), 4):
         print(i)
         Population[i:i+3,:] = crossover(DistanceMatrix, Population[i:i+3,:])
-        #
+    return Population
+
     #how to split into groups of 4 each?
 
 
@@ -83,6 +84,8 @@ newPop = tournament(distanceMatrix, oldPop) #needs to be shuffled at some point
 
 # elitism, remove x number of worst from population
 #Population = newPop + returnBest(Pop, distanceMatrix, numberOfBest) # we add some of the old pop
+#print(returnBest(oldPop, distanceMatrix, numberOfBest))
+#print(newPop)
 newPop = np.vstack([newPop, returnBest(oldPop, distanceMatrix, numberOfBest)])
 oldPop = killWeak(newPop, distanceMatrix, numberOfBest) # we kill off the weakest
 
@@ -91,8 +94,7 @@ oldPop = killWeak(newPop, distanceMatrix, numberOfBest) # we kill off the weakes
 
 #####################################
 
-test = returnBest(NewPop(5), distanceMatrix, 1)
-print(test)
+
 #Pop = NewPop(1)
 #print(Pop)
 
