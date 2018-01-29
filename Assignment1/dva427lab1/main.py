@@ -46,12 +46,12 @@ for j in range(0,1000):
 
 
   Sogmod = sigmoid((data[:1500,0:4]).dot(np.transpose(weights[:,0:4])))
-  current = np.sum(np.abs(Sogmod))
+  #current = np.sum(np.abs(0.5 - Sogmod))
 
   #print("Sogmoid" +str(Sogmod))
   delta = (Sogmod*(1-Sogmod))*np.transpose(0.5 + 0.25*(data[:1500,4])-np.transpose(Sogmod))
   #print("delta" + str(delta))
-
+  current = np.sum(np.abs(delta))
   weights =weights + 0.00005*np.transpose(delta[:1500,:]).dot(data[:1500,0:4])
   #print("weights" + str(weights))
   #print(weights)
@@ -81,7 +81,7 @@ for j in range(0,1000):
 
 
   #print(correct)
-  print("ERR: " + str((1500-correct)/1500)+ "  SC: " + str(survivedcorrect / death) + "  DC: " + str(deathcorrect / death) + "  tot: " + str((survivedcorrect + deathcorrect) / (alive + death)))
+  print("ERR: " + str(current/1500) + "  SC: " + str(survivedcorrect / death) + "  DC: " + str(deathcorrect / death) + "  tot: " + str((survivedcorrect + deathcorrect) / (alive + death)))
   #time.sleep(1)
 
 ###############
