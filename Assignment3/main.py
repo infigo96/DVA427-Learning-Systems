@@ -5,6 +5,7 @@ from sympy import *
 
 popSize = 112 #112 #use multiple of 4 as popSize
 numberOfBest = 20
+numberOfBest = 5
 permutationSize = 52 #max 52
 
 
@@ -37,12 +38,15 @@ def routeDistance(DistanceMatrix, Individual):
     return np.sum([DistanceMatrix[Individual[a[i]],Individual[b[i]]] for i in np.arange(lenes)])
 
 def tournament(DistanceMatrix, Population):
-    #print(Population[3][:])
+    order = np.array([np.random.permutation(popSize) for i in np.arange(1)])
     for i in range(0, len(Population), 4):
         parents = returnBest(Population[i:i+4,:], DistanceMatrix, 2)
         Population[i:i+2,:] = crossover(DistanceMatrix, parents)[0:2,:]
         Population[i + 2:i + 4, :] = NewPop(2)
         #Population[i+2:i+4,:] = crossover(DistanceMatrix, parents)[0:2,:]
+        parents = returnBest(Population[order[0, i:i + 4], :], DistanceMatrix, 2)
+        Population[order[0, i:i + 2], :] = crossover(DistanceMatrix, parents)[0:2, :]
+        Population[order[0, i + 2:i + 4], :] = crossover(DistanceMatrix, parents)[0:2, :]
 
     return Population
 
@@ -54,7 +58,7 @@ def crossover(DistanceMatrix, parents):
     #parents = returnBest(Population, DistanceMatrix, 2)
     #print(parents)
     #-------- crossover, take out a few from the one and put them in the other
-    amount = np.int_(np.ceil(((len(parents[1])-1)/3)* np.random.random_sample() + 2))
+    amount = np.int_(np.ceil(((len(parents[1])-1)/2)* np.random.random_sample() + 2))
     position = np.int_(np.ceil((len(parents[1])-1-amount)* np.random.random_sample() + 1))
     #------take out a part
     toSwitch1 = parents[0,position:position + amount]
