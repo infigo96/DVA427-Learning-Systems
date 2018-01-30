@@ -71,14 +71,19 @@ def crossover(DistanceMatrix, parents):
     child1 = np.insert(Cut2, position, toSwitch1)
     child2 = np.insert(Cut1, position, toSwitch2)
 
-    return np.vstack((child1,child2))
+    return np.vstack((chernobyl(child1), chernobyl(child2)))
 # return
 
-def mutate(population):
-    for i  in range(0,len(population)):
-        if np.random.random_sample() > 0.8:
-            print('hej')
-    return population
+def chernobyl(individual):
+    toMutate = individual.ravel()
+    if np.random.random_sample() > 0.0:
+        rand1 = np.int_(np.ceil((permutationSize-1)*np.random.random_sample()))
+        rand2 = np.int_(np.ceil((permutationSize-1)*np.random.random_sample()))
+        temp = toMutate[rand1]
+        toMutate[rand1] = toMutate[rand2]
+        toMutate[rand2] = temp
+    return toMutate
+
 
             #select 2 random values
 
@@ -94,7 +99,7 @@ distanceMatrix= np.array([[Distance(i, j) for i in data] for j in data])
 oldPop = NewPop(popSize)
 print(routeDistance(distanceMatrix, returnBest(oldPop, distanceMatrix, 1).ravel()))
 oldBestD = np.inf
-for i in range(0,1000):
+lastPlace = 0;
 for i in range(0,200):
 
     #np.random.shuffle(oldPop)
