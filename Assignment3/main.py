@@ -3,12 +3,12 @@ import os
 import time
 from sympy import *
 
-popSize = 40 #use multiple of 4 as popSize
+popSize = 112 #use multiple of 4 as popSize
 numberOfBest = 2
 
 
 def NewPop(sizePop):
-    return np.array([np.random.permutation(8) for i in np.arange(sizePop)])
+    return np.array([np.random.permutation(52) for i in np.arange(sizePop)])
 
 
 def Distance(a, b):
@@ -25,6 +25,7 @@ def returnBest(Pop, DistanceMatrix, numberOfBest):
 
 
 def routeDistance(DistanceMatrix, Individual):
+   # print(Individual)
     #print("sak 2 fyt  " + str(Individual[13]))
     lenes = len(np.transpose(Individual))
     #print("sak" + str(Individual))
@@ -95,7 +96,8 @@ distanceMatrix= [[Distance(i, j) for i in data] for j in data]
 ####################################
 #generate population
 oldPop = NewPop(popSize)
-print(routeDistance(oldPop, returnBest(oldPop, distanceMatrix, 1)))
+print(routeDistance(distanceMatrix, returnBest(oldPop, distanceMatrix, 1).ravel()))
+
 for i in range(0,1000):
     #loop start #use index to save distance for best in group
 
@@ -117,6 +119,8 @@ for i in range(0,1000):
     #print(newPop)
     newPop = np.vstack([newPop, returnBest(oldPop, distanceMatrix, numberOfBest)])
     oldPop = killWeak(newPop, distanceMatrix, numberOfBest) # we kill off the weakest
+    #print(routeDistance(distanceMatrix, returnBest(oldPop, distanceMatrix, 1).ravel()))
+print(routeDistance(distanceMatrix, returnBest(oldPop, distanceMatrix, 1).ravel()))
 
 #end loop
 
