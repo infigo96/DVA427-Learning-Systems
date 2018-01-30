@@ -3,9 +3,9 @@ import os
 import time
 from sympy import *
 
-popSize = 112 #use multiple of 4 as popSize
-numberOfBest = 20
-permutationSize = 52 #max 52
+popSize = 12 #112 #use multiple of 4 as popSize
+numberOfBest = 5
+permutationSize = 10 #max 52
 
 
 def NewPop(sizePop):
@@ -113,13 +113,16 @@ for i in range(0,100):
     #mutate children
     #after this we will have  nextPop which is the children of the old Population
     #np.random.shuffle(oldPop)
+    print(oldPop)
+    print('---------------------------------------------------')
     newPop = tournament(distanceMatrix, oldPop) #needs to be shuffled at some point
     # elitism, remove x number of worst from population
     #Population = newPop + returnBest(Pop, distanceMatrix, numberOfBest) # we add some of the old pop
     #print(returnBest(oldPop, distanceMatrix, numberOfBest))
     #print(newPop)
-    newPop = np.vstack([newPop, returnBest(oldPop, distanceMatrix, numberOfBest)])
-    oldPop = killWeak(newPop, distanceMatrix, numberOfBest) # we kill off the weakest
+    #newPop = np.vstack([newPop, returnBest(oldPop, distanceMatrix, numberOfBest)])
+    #oldPop = killWeak(newPop, distanceMatrix, numberOfBest) # we kill off the weakest
+    oldPop = newPop
     print(routeDistance(distanceMatrix, returnBest(oldPop, distanceMatrix, 1).ravel()))
 print(routeDistance(distanceMatrix, returnBest(oldPop, distanceMatrix, 1).ravel()))
 
