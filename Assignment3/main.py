@@ -95,26 +95,28 @@ distanceMatrix= [[Distance(i, j) for i in data] for j in data]
 ####################################
 #generate population
 oldPop = NewPop(popSize)
-#loop start #use index to save distance for best in group
+print(routeDistance(oldPop, returnBest(oldPop, distanceMatrix, 1)))
+for i in range(0,1000):
+    #loop start #use index to save distance for best in group
 
-#Good place for plotting graphics here
+    #Good place for plotting graphics here
 
-#check if to stop
-#if routeDistance(DistanceMatrix, returnBest(Pop, DistanceMatrix, 1)) < *GOOD DISTANCE*
+    #check if to stop
+    #if routeDistance(DistanceMatrix, returnBest(Pop, DistanceMatrix, 1)) < *GOOD DISTANCE*
 
-#tournament:
-#select from population of groups of 4
-#from this group save the best 2, then cross them
-#mutate children
-#after this we will have  nextPop which is the children of the old Population
-newPop = tournament(distanceMatrix, oldPop) #needs to be shuffled at some point
+    #tournament:
+    #select from population of groups of 4
+    #from this group save the best 2, then cross them
+    #mutate children
+    #after this we will have  nextPop which is the children of the old Population
+    newPop = tournament(distanceMatrix, oldPop) #needs to be shuffled at some point
 
-# elitism, remove x number of worst from population
-#Population = newPop + returnBest(Pop, distanceMatrix, numberOfBest) # we add some of the old pop
-#print(returnBest(oldPop, distanceMatrix, numberOfBest))
-#print(newPop)
-newPop = np.vstack([newPop, returnBest(oldPop, distanceMatrix, numberOfBest)])
-oldPop = killWeak(newPop, distanceMatrix, numberOfBest) # we kill off the weakest
+    # elitism, remove x number of worst from population
+    #Population = newPop + returnBest(Pop, distanceMatrix, numberOfBest) # we add some of the old pop
+    #print(returnBest(oldPop, distanceMatrix, numberOfBest))
+    #print(newPop)
+    newPop = np.vstack([newPop, returnBest(oldPop, distanceMatrix, numberOfBest)])
+    oldPop = killWeak(newPop, distanceMatrix, numberOfBest) # we kill off the weakest
 
 #end loop
 
