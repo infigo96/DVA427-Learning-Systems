@@ -106,7 +106,7 @@ for i in range(0,1000):
         oldBest = best
     else:
         place = np.int_(np.ceil((permutationSize) * np.random.random_sample() + 1))
-        newPop[i] = oldBest
+        newPop[place] = oldBest
 
     print(oldBestD)
     #newPop = np.vstack([newPop, returnBest(oldPop, distanceMatrix, numberOfBest)])
