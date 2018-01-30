@@ -38,15 +38,32 @@ def tournament(DistanceMatrix, Population):
     print(Population[3][:])
     for i in range(0, len(Population), 4):
         print(i)
-        Population[i:i+3,:] = crossover(DistanceMatrix, Population[i:i+3,:])
+        #Population[i:i+3,:] =
+        hej = crossover(DistanceMatrix, Population[i:i+3,:])
     return Population
 
     #how to split into groups of 4 each?
 
 
 def crossover(DistanceMatrix, Population):
-    parents = returnBest(Population, DistanceMatrix, 4)
-    #DO CROSSOVERSHIT
+
+    parents = returnBest(Population, DistanceMatrix, 2)
+    #-------- crossover 1, take out a few from the one and put them in the other
+    amount = np.int_(np.ceil(((len(parents[1])-1)/3)* np.random.random_sample() + 2))
+    position = np.int_(np.ceil((len(parents[1])-1-amount)* np.random.random_sample() + 1))
+    #------take out a part
+    toSwitch1 = parents[0,position:position + amount]
+    toSwitch2 = parents[1,position:position + amount]
+    #-----take out everything but the switch from the oppsite parent
+    Cut1 = parents[0,~np.in1d(parents[0], toSwitch2)]
+    Cut2 = parents[1,~np.in1d(parents[1], toSwitch1)]
+    #----combine the switch with the remaining to create two children
+    child1 = np.insert(Cut2, position, toSwitch1)
+    child2 = np.insert(Cut1, position, toSwitch2)
+
+    print(child1)
+    print(child2)
+    print("pos  " + str(position) + "  men  " + str(amount))
     children = parents # should not work, only 2 elements
     return parents
 # return
