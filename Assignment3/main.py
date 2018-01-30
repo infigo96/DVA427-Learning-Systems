@@ -34,7 +34,7 @@ def routeDistance(DistanceMatrix, Individual):
     a = np.arange(lenes)
     b = a + 1
     b[lenes - 1] = 0
-    return np.sum([DistanceMatrix[Individual[a[i]]][Individual[b[i]]] for i in np.arange(lenes)])
+    return np.sum([DistanceMatrix[Individual[a[i]],Individual[b[i]]] for i in np.arange(lenes)])
 
 def tournament(DistanceMatrix, Population):
     #print(Population[3][:])
@@ -90,7 +90,7 @@ abspath = os.path.abspath(__file__)
 dname = os.path.dirname(abspath)
 os.chdir(dname)
 data = np.genfromtxt('./berlin.txt', delimiter=',')
-distanceMatrix= [[Distance(i, j) for i in data] for j in data]
+distanceMatrix= np.array([[Distance(i, j) for i in data] for j in data])
 #print(distanceMatrix)
 #test = routeDistance(distanceMatrix, (NewPop(1)))
 #print(hej)
