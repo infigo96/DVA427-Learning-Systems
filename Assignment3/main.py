@@ -4,11 +4,12 @@ import time
 from sympy import *
 
 popSize = 112 #use multiple of 4 as popSize
-numberOfBest = 2
+numberOfBest = 20
+permutationSize = 52 #max 52
 
 
 def NewPop(sizePop):
-    return np.array([np.random.permutation(52) for i in np.arange(sizePop)])
+    return np.array([np.random.permutation(permutationSize) for i in np.arange(sizePop)])
 
 
 def Distance(a, b):
@@ -98,7 +99,7 @@ distanceMatrix= [[Distance(i, j) for i in data] for j in data]
 oldPop = NewPop(popSize)
 print(routeDistance(distanceMatrix, returnBest(oldPop, distanceMatrix, 1).ravel()))
 
-for i in range(0,1000):
+for i in range(0,100):
     #loop start #use index to save distance for best in group
 
     #Good place for plotting graphics here
@@ -111,15 +112,15 @@ for i in range(0,1000):
     #from this group save the best 2, then cross them
     #mutate children
     #after this we will have  nextPop which is the children of the old Population
+    #np.random.shuffle(oldPop)
     newPop = tournament(distanceMatrix, oldPop) #needs to be shuffled at some point
-
     # elitism, remove x number of worst from population
     #Population = newPop + returnBest(Pop, distanceMatrix, numberOfBest) # we add some of the old pop
     #print(returnBest(oldPop, distanceMatrix, numberOfBest))
     #print(newPop)
     newPop = np.vstack([newPop, returnBest(oldPop, distanceMatrix, numberOfBest)])
     oldPop = killWeak(newPop, distanceMatrix, numberOfBest) # we kill off the weakest
-    #print(routeDistance(distanceMatrix, returnBest(oldPop, distanceMatrix, 1).ravel()))
+    print(routeDistance(distanceMatrix, returnBest(oldPop, distanceMatrix, 1).ravel()))
 print(routeDistance(distanceMatrix, returnBest(oldPop, distanceMatrix, 1).ravel()))
 
 #end loop
