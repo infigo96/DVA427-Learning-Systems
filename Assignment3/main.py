@@ -5,7 +5,7 @@ from sympy import *
 
 popSize = 112 #112 #use multiple of 4 as popSize
 numberOfBest = 20
-numberOfBest = 5
+numberOfBest = 1
 permutationSize = 52 #max 52
 
 
@@ -40,10 +40,11 @@ def routeDistance(DistanceMatrix, Individual):
 def tournament(DistanceMatrix, Population):
     order = np.array([np.random.permutation(popSize) for i in np.arange(1)])
     for i in range(0, len(Population), 4):
-        parents = returnBest(Population[i:i+4,:], DistanceMatrix, 2)
-        Population[i:i+2,:] = crossover(DistanceMatrix, parents)[0:2,:]
-        Population[i + 2:i + 4, :] = NewPop(2)
+        #parents = returnBest(Population[i:i+4,:], DistanceMatrix, 2)
+        #Population[i:i+2,:] = crossover(DistanceMatrix, parents)[0:2,:]
+        #Population[i + 2:i + 4, :] = NewPop(2)
         #Population[i+2:i+4,:] = crossover(DistanceMatrix, parents)[0:2,:]
+
         parents = returnBest(Population[order[0, i:i + 4], :], DistanceMatrix, 2)
         Population[order[0, i:i + 2], :] = crossover(DistanceMatrix, parents)[0:2, :]
         Population[order[0, i + 2:i + 4], :] = crossover(DistanceMatrix, parents)[0:2, :]
@@ -82,13 +83,6 @@ def mutate(population):
             #select 2 random values
 
 
-
-
-
-
-
-
-
 #np.random.seed(42)
 
 abspath = os.path.abspath(__file__)
@@ -96,52 +90,30 @@ dname = os.path.dirname(abspath)
 os.chdir(dname)
 data = np.genfromtxt('./berlin.txt', delimiter=',')
 distanceMatrix= np.array([[Distance(i, j) for i in data] for j in data])
-#print(distanceMatrix)
-#test = routeDistance(distanceMatrix, (NewPop(1)))
-#print(hej)
 ####################################
-#generate population
 oldPop = NewPop(popSize)
 print(routeDistance(distanceMatrix, returnBest(oldPop, distanceMatrix, 1).ravel()))
-
+oldBestD = np.inf
 for i in range(0,1000):
-    #loop start #use index to save distance for best in group
 
-    #Good place for plotting graphics here
-
-    #check if to stop
-    #if routeDistance(DistanceMatrix, returnBest(Pop, DistanceMatrix, 1)) < *GOOD DISTANCE*
-
-    #tournament:
-    #select from population of groups of 4
-    #from this group save the best 2, then cross them
-    #mutate children
-    #after this we will have  nextPop which is the children of the old Population
-    np.random.shuffle(oldPop)
-    #print(oldPop)
-    #print('---------------------------------------------------')
+    #np.random.shuffle(oldPop)
     newPop = tournament(distanceMatrix, oldPop) #needs to be shuffled at some point
     # elitism, remove x number of worst from population
-    #Population = newPop + returnBest(Pop, distanceMatrix, numberOfBest) # we add some of the old pop
-    #print(returnBest(oldPop, distanceMatrix, numberOfBest))
-    #print(newPop)
-    newPop = np.vstack([newPop, returnBest(oldPop, distanceMatrix, numberOfBest)])
-    oldPop = killWeak(newPop, distanceMatrix, numberOfBest) # we kill off the weakest
-    #oldPop = newPop
-    print(routeDistance(distanceMatrix, returnBest(oldPop, distanceMatrix, 1).ravel()))
+    best = returnBest(newPop, distanceMatrix, 1)
+    bestDist = routeDistance(distanceMatrix,best.ravel())
+    if (bestDist <= oldBestD):
+        oldBestD = bestDist
+        oldBest = best
+    else:
+        place = np.int_(np.ceil((permutationSize) * np.random.random_sample() + 1))
+        newPop[i] = oldBest
+
+    print(oldBestD)
+    #newPop = np.vstack([newPop, returnBest(oldPop, distanceMatrix, numberOfBest)])
+    #oldPop = killWeak(newPop, distanceMatrix, numberOfBest) # we kill off the weakest
+    oldPop = newPop
+    #print(routeDistance(distanceMatrix, returnBest(oldPop, distanceMatrix, 1).ravel()))
 print(routeDistance(distanceMatrix, returnBest(oldPop, distanceMatrix, 1).ravel()))
 print(oldPop)
 #end loop
 
-
-#####################################
-
-
-#Pop = NewPop(1)
-#print(Pop)
-
-#a = np.matrix('1 2 3 4; 5 6 7 8; 9 10 11 12')
-#print(a)
-#np.random.shuffle(a)
-
-#print(a)
