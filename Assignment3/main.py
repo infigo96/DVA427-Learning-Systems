@@ -69,9 +69,10 @@ def crossover(DistanceMatrix, Population):
 # return
 
 def mutate(population):
-    for i = 0:len(population)
+    for i  in range(0,len(population)):
         if np.random.random_sample() > 0.8:
-         return population
+            print('hej')
+    return population
 
             #select 2 random values
 
