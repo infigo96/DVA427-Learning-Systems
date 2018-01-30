@@ -75,7 +75,7 @@ def crossover(DistanceMatrix, parents):
 
 def chernobyl(individual):
     toMutate = individual.ravel()
-    if np.random.random_sample() > 0.0:
+    if np.random.random_sample() > 0.7:
         rand1 = np.int_(np.ceil((permutationSize-1)*np.random.random_sample()))
         rand2 = np.int_(np.ceil((permutationSize-1)*np.random.random_sample()))
         temp = toMutate[rand1]
@@ -99,7 +99,7 @@ oldPop = NewPop(popSize)
 print(routeDistance(distanceMatrix, returnBest(oldPop, distanceMatrix, 1).ravel()))
 oldBestD = np.inf
 lastPlace = 0;
-for i in range(0,200):
+for i in range(0,1000):
 
     #np.random.shuffle(oldPop)
     newPop = tournament(distanceMatrix, oldPop) #needs to be shuffled at some point
