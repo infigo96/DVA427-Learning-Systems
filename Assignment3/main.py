@@ -28,7 +28,7 @@ distanceMatrix= [[Distance(i, j) for i in data] for j in data]
 #print(distanceMatrix)
 hej = routeDistance(distanceMatrix, np.transpose(NewPop(1)))
 print(hej)
-
+#rdfthdr
 #Pop = NewPop(1)
 #print(Pop)
 
