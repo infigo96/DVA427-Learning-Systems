@@ -94,7 +94,7 @@ distanceMatrix= np.array([[Distance(i, j) for i in data] for j in data])
 oldPop = NewPop(popSize)
 print(routeDistance(distanceMatrix, returnBest(oldPop, distanceMatrix, 1).ravel()))
 oldBestD = np.inf
-for i in range(0,1000):
+lastPlace = 0
 for i in range(0,200):
 
     #np.random.shuffle(oldPop)
@@ -105,10 +105,8 @@ for i in range(0,200):
     if (bestDist <= oldBestD):
         oldBestD = bestDist
         oldBest = best
-    elif(routeDistance(distanceMatrix,newPop[lastPlace]) != oldBestD):
+    else:
         place = np.int_(np.ceil((permutationSize) * np.random.random_sample() + 1))
-        #place = 0
-        lastPlace = place
         newPop[place] = oldBest
 
     print(oldBestD)
