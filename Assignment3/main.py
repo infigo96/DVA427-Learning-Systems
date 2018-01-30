@@ -8,7 +8,7 @@ numberOfBest = 2
 
 
 def NewPop(sizePop):
-    return np.array([np.random.permutation(52) for i in np.arange(sizePop)])
+    return np.array([np.random.permutation(8) for i in np.arange(sizePop)])
 
 
 def Distance(a, b):
@@ -35,20 +35,22 @@ def routeDistance(DistanceMatrix, Individual):
     return np.sum([DistanceMatrix[Individual[a[i]]][Individual[b[i]]] for i in np.arange(lenes)])
 
 def tournament(DistanceMatrix, Population):
-    print(Population[3][:])
+    #print(Population[3][:])
     for i in range(0, len(Population), 4):
-        print(i)
-        #Population[i:i+3,:] =
-        hej = crossover(DistanceMatrix, Population[i:i+3,:])
+        parents = returnBest(Population[i:i+4,:], DistanceMatrix, 2)
+        Population[i:i+2,:] = crossover(DistanceMatrix, parents)[0:2,:]
+        Population[i+2:i+4,:] = crossover(DistanceMatrix, parents)[0:2,:]
+
     return Population
 
     #how to split into groups of 4 each?
 
 
-def crossover(DistanceMatrix, Population):
+def crossover(DistanceMatrix, parents):
 
-    parents = returnBest(Population, DistanceMatrix, 2)
-    #-------- crossover 1, take out a few from the one and put them in the other
+    #parents = returnBest(Population, DistanceMatrix, 2)
+    #print(parents)
+    #-------- crossover, take out a few from the one and put them in the other
     amount = np.int_(np.ceil(((len(parents[1])-1)/3)* np.random.random_sample() + 2))
     position = np.int_(np.ceil((len(parents[1])-1-amount)* np.random.random_sample() + 1))
     #------take out a part
@@ -61,11 +63,7 @@ def crossover(DistanceMatrix, Population):
     child1 = np.insert(Cut2, position, toSwitch1)
     child2 = np.insert(Cut1, position, toSwitch2)
 
-    print(child1)
-    print(child2)
-    print("pos  " + str(position) + "  men  " + str(amount))
-    children = parents # should not work, only 2 elements
-    return parents
+    return np.vstack((child1,child2))
 # return
 
 def mutate(population):
