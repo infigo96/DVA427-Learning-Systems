@@ -5,7 +5,6 @@ from sympy import *
 
 popSize = 112 #112 #use multiple of 4 as popSize
 numberOfBest = 20
-numberOfBest = 1
 permutationSize = 52 #max 52
 
 
