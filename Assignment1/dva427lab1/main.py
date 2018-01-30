@@ -85,6 +85,11 @@ for j in range(0,1000):
   print("sizeDelta: " + str(sizeDelta/1500) + "  SC: " + str(survivedcorrect / death) + "  DC: " + str(deathcorrect / death) + "  tot: " + str((survivedcorrect + deathcorrect) / (alive + death)))
   #time.sleep(1)
 
+print('Predicted survival rate is')
+print(np.sum(np.abs(val))/700)
+print('Real survival rate is')
+print(str(1-(1502/2224)))
+
 ###############
 #print("Alive: " + str(survivedcorrect/death) + "  Dead: " + str(deathcorrect/death) + "  TOT: " + str((survivedcorrect+deathcorrect)/(alive+death)))
 #print('Accuracy is: ' + str((survivedcorrect+deathcorrect)/700))
