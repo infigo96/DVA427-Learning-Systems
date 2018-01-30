@@ -5,7 +5,6 @@ from sympy import *
 
 popSize = 112 #112 #use multiple of 4 as popSize
 numberOfBest = 20
-numberOfBest = 1
 permutationSize = 52 #max 52
 
 
@@ -110,10 +109,8 @@ for i in range(0,200):
     if (bestDist <= oldBestD):
         oldBestD = bestDist
         oldBest = best
-    elif(routeDistance(distanceMatrix,newPop[lastPlace]) != oldBestD):
+    else:
         place = np.int_(np.ceil((permutationSize) * np.random.random_sample() + 1))
-        #place = 0
-        lastPlace = place
         newPop[place] = oldBest
 
     print(oldBestD)
