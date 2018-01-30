@@ -95,6 +95,7 @@ oldPop = NewPop(popSize)
 print(routeDistance(distanceMatrix, returnBest(oldPop, distanceMatrix, 1).ravel()))
 oldBestD = np.inf
 for i in range(0,1000):
+for i in range(0,200):
 
     #np.random.shuffle(oldPop)
     newPop = tournament(distanceMatrix, oldPop) #needs to be shuffled at some point
@@ -104,8 +105,10 @@ for i in range(0,1000):
     if (bestDist <= oldBestD):
         oldBestD = bestDist
         oldBest = best
-    else:
+    elif(routeDistance(distanceMatrix,newPop[lastPlace]) != oldBestD):
         place = np.int_(np.ceil((permutationSize) * np.random.random_sample() + 1))
+        #place = 0
+        lastPlace = place
         newPop[place] = oldBest
 
     print(oldBestD)
@@ -114,6 +117,6 @@ for i in range(0,1000):
     oldPop = newPop
     #print(routeDistance(distanceMatrix, returnBest(oldPop, distanceMatrix, 1).ravel()))
 print(routeDistance(distanceMatrix, returnBest(oldPop, distanceMatrix, 1).ravel()))
-print(oldPop)
+print(oldBest)
 #end loop
 
