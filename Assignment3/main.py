@@ -68,7 +68,18 @@ def crossover(DistanceMatrix, Population):
     return parents
 # return
 
-#def mutate........
+def mutate(population):
+    for i = 0:len(population)
+        if np.random.random_sample() > 0.8:
+         return population
+
+            #select 2 random values
+
+
+
+
+
+
 
 
 
@@ -85,7 +96,7 @@ distanceMatrix= [[Distance(i, j) for i in data] for j in data]
 ####################################
 #generate population
 oldPop = NewPop(popSize)
-#loop start
+#loop start #use index to save distance for best in group
 
 #Good place for plotting graphics here
 
