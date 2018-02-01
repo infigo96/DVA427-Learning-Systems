@@ -2,6 +2,8 @@ import numpy as np
 import os
 import time
 from sympy import *
+import matplotlib.pyplot as plt
+
 
 popSize = 112 #112 #use multiple of 4 as popSize
 numberOfBest = 20
@@ -111,7 +113,7 @@ for i in range(0,1000):
         oldBestD = bestDist
         oldBest = best
     else:
-        place = np.int_(np.ceil((permutationSize) * np.random.random_sample() + 1))
+        place = np.int_(np.ceil((popSize) * np.random.random_sample()))
         newPop[place] = oldBest
 
     print(oldBestD)
@@ -121,5 +123,15 @@ for i in range(0,1000):
     #print(routeDistance(distanceMatrix, returnBest(oldPop, distanceMatrix, 1).ravel()))
 print(routeDistance(distanceMatrix, returnBest(newPop, distanceMatrix, 1).ravel()))
 print(oldBest)
+plt.figure()
+lenes = len(np.transpose(oldBest))
+i = np.arange(lenes + 1)
+i[lenes] = 0
+#print(data[i,0])
+
+plt.plot(data[oldBest[0,i],0], data[oldBest[0,i],1], 'r')
+
+plt.show()
+
 #end loop
 
