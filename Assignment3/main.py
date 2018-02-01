@@ -113,10 +113,11 @@ for i in range(0,1000):
         oldBestD = bestDist
         oldBest = best
     else:
-        place = np.int_(np.ceil((popSize) * np.random.random_sample()))
+        place = np.int_(np.ceil((popSize) * np.random.random_sample())-1)
         newPop[place] = oldBest
 
     print(oldBestD)
+    #print("Gen: " +str(i)+ "     Dist: " + str(oldBestD))
     #newPop = np.vstack([newPop, returnBest(oldPop, distanceMatrix, numberOfBest)])
     #oldPop = killWeak(newPop, distanceMatrix, numberOfBest) # we kill off the weakest
     oldPop = newPop
@@ -129,8 +130,8 @@ i = np.arange(lenes + 1)
 i[lenes] = 0
 #print(data[i,0])
 
-plt.plot(data[oldBest[0,i],0], data[oldBest[0,i],1], 'r')
-
+plt.plot(data[oldBest[0,i],0], data[oldBest[0,i],1], 'r', lw=1)
+plt.scatter(data[i,0], data[i,1], s=60)
 plt.show()
 
 #end loop
