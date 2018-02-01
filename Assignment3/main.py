@@ -96,13 +96,14 @@ data = np.genfromtxt('./berlin.txt', delimiter=',')
 distanceMatrix= np.array([[Distance(i, j) for i in data] for j in data])
 ####################################
 oldPop = NewPop(popSize)
+newPop = oldPop
 print(routeDistance(distanceMatrix, returnBest(oldPop, distanceMatrix, 1).ravel()))
 oldBestD = np.inf
 lastPlace = 0;
 for i in range(0,1000):
 
     #np.random.shuffle(oldPop)
-    newPop = tournament(distanceMatrix, oldPop) #needs to be shuffled at some point
+    newPop = tournament(distanceMatrix, newPop) #needs to be shuffled at some point
     # elitism, remove x number of worst from population
     best = returnBest(newPop, distanceMatrix, 1)
     bestDist = routeDistance(distanceMatrix,best.ravel())
@@ -118,7 +119,7 @@ for i in range(0,1000):
     #oldPop = killWeak(newPop, distanceMatrix, numberOfBest) # we kill off the weakest
     oldPop = newPop
     #print(routeDistance(distanceMatrix, returnBest(oldPop, distanceMatrix, 1).ravel()))
-print(routeDistance(distanceMatrix, returnBest(oldPop, distanceMatrix, 1).ravel()))
+print(routeDistance(distanceMatrix, returnBest(newPop, distanceMatrix, 1).ravel()))
 print(oldBest)
 #end loop
 
