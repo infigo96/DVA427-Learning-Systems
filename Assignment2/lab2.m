@@ -2,4 +2,5 @@ clear;
 clc;
 M = readtable('iris_data.csv');
 
-irisdata = importfile('iris_data.csv', 1, 150);
+irisData = importfile('iris_data.csv', 1, 150);
+irisClass = M{:,5}
