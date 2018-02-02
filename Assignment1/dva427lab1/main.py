@@ -69,7 +69,7 @@ for j in range(0,1000):
   #
   #     if Sogmod[i] < 0.5:
   #       correct+=1
-  for i in range(1500,2200):
+  for i in range(1500,2201):
 
     if data[i,4] == 1:
       alive +=1

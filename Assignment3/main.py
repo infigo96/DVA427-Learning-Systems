@@ -2,9 +2,11 @@ import numpy as np
 import os
 import time
 from sympy import *
+import matplotlib.pyplot as plt
+
 
 popSize = 112 #112 #use multiple of 4 as popSize
-numberOfBest = 20
+numberOfBest = 20 #Not used anymore
 permutationSize = 52 #max 52
 
 
@@ -59,23 +61,25 @@ def crossover(DistanceMatrix, parents):
     #print(parents)
     #-------- crossover, take out a few from the one and put them in the other
     amount = np.int_(np.ceil(((len(parents[1])-1)/2)* np.random.random_sample() + 2))
-    position = np.int_(np.ceil((len(parents[1])-1-amount)* np.random.random_sample() + 1))
+    position1 = np.int_(np.ceil((len(parents[1])-1-amount)* np.random.random_sample() + 1))
+    position2 = np.int_(np.ceil((len(parents[1])-1-amount)* np.random.random_sample() + 1))
+
     #------take out a part
-    toSwitch1 = parents[0,position:position + amount]
-    toSwitch2 = parents[1,position:position + amount]
+    toSwitch1 = parents[0,position1:position1 + amount]
+    toSwitch2 = parents[1,position2:position2 + amount]
     #-----take out everything but the switch from the oppsite parent
     Cut1 = parents[0,~np.in1d(parents[0], toSwitch2)]
     Cut2 = parents[1,~np.in1d(parents[1], toSwitch1)]
     #----combine the switch with the remaining to create two children
-    child1 = np.insert(Cut2, position, toSwitch1)
-    child2 = np.insert(Cut1, position, toSwitch2)
+    child1 = np.insert(Cut2, position1, toSwitch1)
+    child2 = np.insert(Cut1, position2, toSwitch2)
 
     return np.vstack((chernobyl(child1), chernobyl(child2)))
 # return
 
 def chernobyl(individual):
     toMutate = individual.ravel()
-    if np.random.random_sample() > 0.7:
+    while np.random.random_sample() > 0.7:
         rand1 = np.int_(np.ceil((permutationSize-1)*np.random.random_sample()))
         rand2 = np.int_(np.ceil((permutationSize-1)*np.random.random_sample()))
         temp = toMutate[rand1]
@@ -96,13 +100,14 @@ data = np.genfromtxt('./berlin.txt', delimiter=',')
 distanceMatrix= np.array([[Distance(i, j) for i in data] for j in data])
 ####################################
 oldPop = NewPop(popSize)
+newPop = oldPop
 print(routeDistance(distanceMatrix, returnBest(oldPop, distanceMatrix, 1).ravel()))
 oldBestD = np.inf
 lastPlace = 0;
 for i in range(0,1000):
 
     #np.random.shuffle(oldPop)
-    newPop = tournament(distanceMatrix, oldPop) #needs to be shuffled at some point
+    newPop = tournament(distanceMatrix, newPop) #needs to be shuffled at some point
     # elitism, remove x number of worst from population
     best = returnBest(newPop, distanceMatrix, 1)
     bestDist = routeDistance(distanceMatrix,best.ravel())
@@ -110,15 +115,26 @@ for i in range(0,1000):
         oldBestD = bestDist
         oldBest = best
     else:
-        place = np.int_(np.ceil((permutationSize) * np.random.random_sample() + 1))
-        newPop[place] = oldBest
+        place = np.int_(np.ceil((popSize) * np.random.random_sample())-1)
+        #newPop[place] = oldBest
 
     print(oldBestD)
+    #if i%50 == 0: print("Gen: " +str(i)+ "     Dist: " + str(oldBestD))
     #newPop = np.vstack([newPop, returnBest(oldPop, distanceMatrix, numberOfBest)])
     #oldPop = killWeak(newPop, distanceMatrix, numberOfBest) # we kill off the weakest
     oldPop = newPop
     #print(routeDistance(distanceMatrix, returnBest(oldPop, distanceMatrix, 1).ravel()))
-print(routeDistance(distanceMatrix, returnBest(oldPop, distanceMatrix, 1).ravel()))
-print(oldBest)
+print("Dist:   " + str(oldBestD))
+print("Route:  " +str(oldBest))
+plt.figure()
+lenes = len(np.transpose(oldBest))
+i = np.arange(lenes + 1)
+i[lenes] = 0
+#print(data[i,0])
+
+plt.plot(data[oldBest[0,i],0], data[oldBest[0,i],1], 'r', lw=1)
+plt.scatter(data[i,0], data[i,1], s=20)
+plt.show()
+
 #end loop
 
