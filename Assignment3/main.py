@@ -77,7 +77,7 @@ def crossover(DistanceMatrix, parents):
 
 def chernobyl(individual):
     toMutate = individual.ravel()
-    if np.random.random_sample() > 0.7:
+    while np.random.random_sample() > 0.6:
         rand1 = np.int_(np.ceil((permutationSize-1)*np.random.random_sample()))
         rand2 = np.int_(np.ceil((permutationSize-1)*np.random.random_sample()))
         temp = toMutate[rand1]
@@ -112,18 +112,18 @@ for i in range(0,1000):
     if (bestDist <= oldBestD):
         oldBestD = bestDist
         oldBest = best
-    else:
+    elif (i%5 == 0):
         place = np.int_(np.ceil((popSize) * np.random.random_sample())-1)
         newPop[place] = oldBest
 
-    print(oldBestD)
-    #print("Gen: " +str(i)+ "     Dist: " + str(oldBestD))
+    #if i%50 == 0: print(oldBestD)
+    if i%50 == 0: print("Gen: " +str(i)+ "     Dist: " + str(oldBestD))
     #newPop = np.vstack([newPop, returnBest(oldPop, distanceMatrix, numberOfBest)])
     #oldPop = killWeak(newPop, distanceMatrix, numberOfBest) # we kill off the weakest
     oldPop = newPop
     #print(routeDistance(distanceMatrix, returnBest(oldPop, distanceMatrix, 1).ravel()))
 print(routeDistance(distanceMatrix, returnBest(newPop, distanceMatrix, 1).ravel()))
-print(oldBest)
+print("Dist:" +str(oldBest))
 plt.figure()
 lenes = len(np.transpose(oldBest))
 i = np.arange(lenes + 1)
@@ -131,7 +131,7 @@ i[lenes] = 0
 #print(data[i,0])
 
 plt.plot(data[oldBest[0,i],0], data[oldBest[0,i],1], 'r', lw=1)
-plt.scatter(data[i,0], data[i,1], s=60)
+plt.scatter(data[i,0], data[i,1], s=20)
 plt.show()
 
 #end loop
