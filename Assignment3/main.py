@@ -77,7 +77,7 @@ def crossover(DistanceMatrix, parents):
 
 def chernobyl(individual):
     toMutate = individual.ravel()
-    while np.random.random_sample() > 0.6:
+    if np.random.random_sample() > 0.7:
         rand1 = np.int_(np.ceil((permutationSize-1)*np.random.random_sample()))
         rand2 = np.int_(np.ceil((permutationSize-1)*np.random.random_sample()))
         temp = toMutate[rand1]
@@ -112,12 +112,12 @@ for i in range(0,1000):
     if (bestDist <= oldBestD):
         oldBestD = bestDist
         oldBest = best
-    elif (i%5 == 0):
+    else:
         place = np.int_(np.ceil((popSize) * np.random.random_sample())-1)
-        newPop[place] = oldBest
+        #newPop[place] = oldBest
 
-    #if i%50 == 0: print(oldBestD)
-    if i%50 == 0: print("Gen: " +str(i)+ "     Dist: " + str(oldBestD))
+    print(oldBestD)
+    #if i%50 == 0: print("Gen: " +str(i)+ "     Dist: " + str(oldBestD))
     #newPop = np.vstack([newPop, returnBest(oldPop, distanceMatrix, numberOfBest)])
     #oldPop = killWeak(newPop, distanceMatrix, numberOfBest) # we kill off the weakest
     oldPop = newPop
