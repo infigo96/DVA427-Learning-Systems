@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 
 
 popSize = 112 #112 #use multiple of 4 as popSize
-numberOfBest = 20
+numberOfBest = 20 #Not used anymore
 permutationSize = 52 #max 52
 
 
@@ -122,8 +122,8 @@ for i in range(0,1000):
     #oldPop = killWeak(newPop, distanceMatrix, numberOfBest) # we kill off the weakest
     oldPop = newPop
     #print(routeDistance(distanceMatrix, returnBest(oldPop, distanceMatrix, 1).ravel()))
-print(routeDistance(distanceMatrix, returnBest(newPop, distanceMatrix, 1).ravel()))
-print("Dist:" +str(oldBest))
+print("Dist:   " + str(oldBestD))
+print("Route:  " +str(oldBest))
 plt.figure()
 lenes = len(np.transpose(oldBest))
 i = np.arange(lenes + 1)
