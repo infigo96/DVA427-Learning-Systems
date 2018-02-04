@@ -1,15 +1,14 @@
 clear;
 clc;
 M = readtable('iris_data.csv');
-
-
-
 irisData = importfile('iris_data.csv', 1, 150);
 irisClass = M{:,5};
 for i = 1:4
     irisData(:,i) = (irisData(:,i) - min(irisData(:,i)))/(max(irisData(:,i))-min(irisData(:,i)));
 end
-
+for i = 1:length(irisClass)
+    classNumber(i,:) = classname(irisClass{i});
+end
 
 %short(irisData(:,1))
 shortMatrix = arrayfun(@short, irisData);
@@ -22,7 +21,7 @@ disp('r1 test')
 for i = 1:150
     test = r1(irisData(i,:));
     if test > 0
-        disp(i)
+        
     end
 end
 
@@ -30,7 +29,7 @@ disp('r2 test')
 for i = 1:150
     test = r2(irisData(i,:));
     if test > 0
-        disp(i)
+       
     end
 end
 
@@ -38,7 +37,7 @@ disp('r3 test')
 for i = 1:150
     test = r3(irisData(i,:));
     if test > 0
-        disp(i)
+        
     end
 end
 
@@ -46,12 +45,21 @@ disp('r4 test')
 for i = 1:150
     test = r4(irisData(i,:));
     if test > 0
-        disp(i)
+        
     end
 end
 
-blah = arrayfun(@classify, irisData)
+%classify(irisData(1,:))
+%blah = arrayfun(@classify, irisData)
+%classfied = zeros(length(irisData),4);
+for i = 1:length(irisData)
+    classified(i,:) = classify(irisData(i,:));
+end
 
+for i = 1:length(irisClass)
+    hej = classified(i,:)'*classNumber(i,:);    
+end
+hej
 function y = short(x)
     if (0 <= x) && (x <0.6)
         y = 1-1/0.6*x;
@@ -78,6 +86,17 @@ function y = middle(x)
 
     else
      y = 0;
+    end
+end
+function y = classname(x)
+    if strcmp(x,'Iris-versicolor')
+        y =[1 0 0 1];
+    elseif strcmp(x,'Iris-setosa')
+        y = [0 1 0 0];
+    elseif strcmp(x,'Iris-virginica')
+        y = [0 0 1 0];
+    else
+        y = [-1 -1 -1 -1];
     end
 end
 
@@ -116,6 +135,6 @@ end
 
 
 function y = classify(x)
- y = [r1(x(1)) r2(x(2)) r3(x(3)) r4(x(4))];
+ y = [r1(x) r2(x) r3(x) r4(x)];
 end
 

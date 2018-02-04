@@ -6,8 +6,9 @@ irisClass = M{:,5};
 for i = 1:4
     irisData(:,i) = (irisData(:,i) - min(irisData(:,i)))/(max(irisData(:,i))-min(irisData(:,i)));
 end
-hej = arrayfun(@classname, irisClass)
-
+for i = 1:length(irisClass)
+    classNumber(i,:) = classname(irisClass{i});
+end
 
 %short(irisData(:,1))
 shortMatrix = arrayfun(@short, irisData);
@@ -54,8 +55,11 @@ end
 for i = 1:length(irisData)
     classified(i,:) = classify(irisData(i,:));
 end
-    
 
+for i = 1:length(classNumber)
+   Result(i,:) = classified(i,:)*classNumber(i,:)';
+end
+Accuracy = sum(Result)/length(Result)
 function y = short(x)
     if (0 <= x) && (x <0.6)
         y = 1-1/0.6*x;
@@ -85,14 +89,14 @@ function y = middle(x)
     end
 end
 function y = classname(x)
-    if strcmp(x{1},'Iris-versicolor')
-        y =1;
-    elseif strcmp(x{1},'Iris-setosa')
-        y = 2;
-    elseif strcmp(x{1},'Iris-virginica')
-        y = 3;
+    if strcmp(x,'Iris-versicolor')
+        y =[1 0 0 1];
+    elseif strcmp(x,'Iris-setosa')
+        y = [0 1 0 0];
+    elseif strcmp(x,'Iris-virginica')
+        y = [0 0 1 0];
     else
-        y = 0
+        y = [-1 -1 -1 -1];
     end
 end
 
