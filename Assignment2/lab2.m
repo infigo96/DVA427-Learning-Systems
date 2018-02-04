@@ -13,7 +13,7 @@ end
 
 
 %short(irisData(:,1))
-%test = arrayfun(short, irisData(:,1))
+test = arrayfun(@short, irisData(:,1))
 
 function y = short(x)
     if (0 <= x) && (x <0.6)
