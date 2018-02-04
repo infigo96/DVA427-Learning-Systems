@@ -11,9 +11,8 @@ for i = 1:4
     irisData(:,i) = (irisData(:,i) - min(irisData(:,i)))/(max(irisData(:,i))-min(irisData(:,i)));
 end
 
+if(short(
 
-%short(irisData(:,1))
-%test = arrayfun(short, irisData(:,1))
 
 function y = short(x)
     if (0 <= x) && (x <0.6)
