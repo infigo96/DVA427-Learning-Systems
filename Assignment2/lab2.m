@@ -22,7 +22,7 @@ disp('r1 test')
 for i = 1:150
     test = r1(irisData(i,:));
     if test > 0
-        disp(i)
+        
     end
 end
 
@@ -30,7 +30,7 @@ disp('r2 test')
 for i = 1:150
     test = r2(irisData(i,:));
     if test > 0
-        disp(i)
+       
     end
 end
 
@@ -38,7 +38,7 @@ disp('r3 test')
 for i = 1:150
     test = r3(irisData(i,:));
     if test > 0
-        disp(i)
+        
     end
 end
 
@@ -46,9 +46,17 @@ disp('r4 test')
 for i = 1:150
     test = r4(irisData(i,:));
     if test > 0
-        disp(i)
+        
     end
 end
+
+%classify(irisData(1,:))
+%blah = arrayfun(@classify, irisData)
+%classfied = zeros(length(irisData),4);
+for i = 1:length(irisData)
+    classified(i,:) = classify(irisData(i,:));
+end
+    
 
 function y = short(x)
     if (0 <= x) && (x <0.6)
@@ -114,6 +122,6 @@ end
 
 
 function y = classify(x)
- y = 0
+ y = [r1(x) r2(x) r3(x) r4(x)];
 end
 

@@ -18,12 +18,40 @@ longMatrix = arrayfun(@long, irisData);
 
 
 %test = r1(irisData(:,i))
+disp('r1 test')
 for i = 1:150
     test = r1(irisData(i,:));
     if test > 0
         disp(i)
     end
 end
+
+disp('r2 test')
+for i = 1:150
+    test = r2(irisData(i,:));
+    if test > 0
+        disp(i)
+    end
+end
+
+disp('r3 test')
+for i = 1:150
+    test = r3(irisData(i,:));
+    if test > 0
+        disp(i)
+    end
+end
+
+disp('r4 test')
+for i = 1:150
+    test = r4(irisData(i,:));
+    if test > 0
+        disp(i)
+    end
+end
+
+blah = arrayfun(@classify, irisData)
+
 function y = short(x)
     if (0 <= x) && (x <0.6)
         y = 1-1/0.6*x;
@@ -69,8 +97,16 @@ else
 end
 end
 
-function y = r(x)
-if (max(short(x(3)),middle(x(3))) > 0.5) && (short(x(4)) > 0.5) 
+function y = r3(x)
+if (max(short(x(2)),middle(x(2))) > 0.5) && (long(x(3)) > 0.5) && (long(x(4)) > 0.5) 
+    y = 1;
+else
+    y = 0;
+end
+end
+
+function y = r4(x)
+if (middle(x(1)) > 0.5) &&(max(short(x(2)),middle(x(2))) > 0.5) && (short(x(3)) > 0.5) && (long(x(4)) > 0.5) 
     y = 1;
 else
     y = 0;
@@ -80,6 +116,6 @@ end
 
 
 function y = classify(x)
- y = 0
+ y = [r1(x(1)) r2(x(2)) r3(x(3)) r4(x(4))];
 end
 
