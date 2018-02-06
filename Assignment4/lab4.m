@@ -1,3 +1,3 @@
 clear;
+%clf;
 clc;
-clf;
