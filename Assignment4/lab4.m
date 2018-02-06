@@ -11,6 +11,7 @@ inputPath = [locations, A.data]; %column 1 and 2 are the location, column 3 is t
 distanceMatrix = ones(26,26)*inf;
 for i = 1:length(inputPath)
 distanceMatrix(inputPath(i,1),inputPath(i,2)) = inputPath(i,3);
+distanceMatrix(inputPath(i,2),inputPath(i,1)) = inputPath(i,3);
 end %% (x,y) x is the starting location, y is the end location, the value is the travel ditance.
 
 currentDistance =  inf(26,1);
@@ -20,8 +21,8 @@ for iteration = 1:20
     for i = 1:26
        if currentDistance(i) ~= inf
            for j = 1:26 % too high
-               if currentDistance(j) > currentDistance(i) + distanceMatrix(j,i)  
-                   currentDistance(j) =  currentDistance(i) + distanceMatrix(j,i);
+               if currentDistance(j) > currentDistance(i) + distanceMatrix(i,j)  
+                   currentDistance(j) =  currentDistance(i) + distanceMatrix(i,j);
                end
            end
        end
