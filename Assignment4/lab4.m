@@ -10,7 +10,7 @@ locations = C - 64;
 inputPath = [locations, A.data]; %column 1 and 2 are the location, column 3 is the distance. 
 %char(23+64) W
 distanceMatrix = ones(26,26)*inf;
-for i = 1:26
+for i = 1:length(inputPath)
 distanceMatrix(inputPath(i,1),inputPath(i,2)) = inputPath(i,3)
 end
 
