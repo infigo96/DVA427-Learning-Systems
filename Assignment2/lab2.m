@@ -21,7 +21,6 @@ disp('r1 test')
 for i = 1:150
     test = r1(irisData(i,:));
     if test > 0
-        
     end
 end
 
@@ -45,7 +44,6 @@ disp('r4 test')
 for i = 1:150
     test = r4(irisData(i,:));
     if test > 0
-        
     end
 end
 
@@ -90,13 +88,13 @@ function y = middle(x)
 end
 function y = classname(x)
     if strcmp(x,'Iris-versicolor')
-        y =[1 0 0 1];
+        y =[1 0 0];
     elseif strcmp(x,'Iris-setosa')
-        y = [0 1 0 0];
+        y = [0 1 0];
     elseif strcmp(x,'Iris-virginica')
-        y = [0 0 1 0];
+        y = [0 0 1];
     else
-        y = [-1 -1 -1 -1];
+        y = [-1 -1 -1];
     end
 end
 
@@ -135,6 +133,6 @@ end
 
 
 function y = classify(x)
- y = [r1(x) r2(x) r3(x) r4(x)];
+ y = [max(r1(x),r4(x)) r2(x) r3(x)];
 end
 
