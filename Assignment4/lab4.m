@@ -10,14 +10,14 @@ inputPath = [locations, A.data]; %column 1 and 2 are the location, column 3 is t
 %char(23+64) W
 distanceMatrix = ones(26,26)*inf;
 for i = 1:length(inputPath)
-distanceMatrix(inputPath(i,1),inputPath(i,2)) = inputPath(i,3);
-distanceMatrix(inputPath(i,2),inputPath(i,1)) = inputPath(i,3);
+distanceMatrix(inputPath(i,1),inputPath(i,2)) = inputPath(i,3); %city id 17,20&21 do not exist
+distanceMatrix(inputPath(i,2),inputPath(i,1)) = inputPath(i,3); %and will be inf in the result
 end %% (x,y) x is the starting location, y is the end location, the value is the travel ditance.
 
 currentDistance =  inf(26,1);
 currentDistance(6) = 0;
 
-for iteration = 1:20
+for iteration = 1:25
     for i = 1:26
        if currentDistance(i) ~= inf
            for j = 1:26 % too high
