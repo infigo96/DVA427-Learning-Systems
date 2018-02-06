@@ -16,12 +16,12 @@ end %% (x,y) x is the starting location, y is the end location, the value is the
 currentDistance =  inf(26,1);
 currentDistance(6) = 0;
 
-for iteration = 1:25
+for iteration = 1:20
     for i = 1:26
        if currentDistance(i) ~= inf
            for j = 1:26 % too high
-               if currentDistance(j) > distanceMatrix(i,j) + currentDistance(i)
-                   currentDistance(j) = distanceMatrix(i,j) + currentDistance(i)
+               if currentDistance(j) > currentDistance(i) + distanceMatrix(j,i)  
+                   currentDistance(j) =  currentDistance(i) + distanceMatrix(j,i);
                end
            end
        end
