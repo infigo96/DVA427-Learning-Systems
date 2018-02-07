@@ -28,4 +28,6 @@ for iteration = 1:25
        end
     end
 end
-
+smart = double(inputPath);
+G = digraph([smart(:,1), smart(:,2)],[smart(:,2),smart(:,1)],[smart(:,3),smart(:,3)]);
+plot(G);
