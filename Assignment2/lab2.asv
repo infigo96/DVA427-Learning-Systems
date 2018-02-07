@@ -17,37 +17,35 @@ longMatrix = arrayfun(@long, irisData);
 
 
 %test = r1(irisData(:,i))
-disp('r1 test')
-for i = 1:150
-    test = r1(irisData(i,:));
-    if test > 0
-        
-    end
-end
-
-disp('r2 test')
-for i = 1:150
-    test = r2(irisData(i,:));
-    if test > 0
-       
-    end
-end
-
-disp('r3 test')
-for i = 1:150
-    test = r3(irisData(i,:));
-    if test > 0
-        
-    end
-end
-
-disp('r4 test')
-for i = 1:150
-    test = r4(irisData(i,:));
-    if test > 0
-        
-    end
-end
+% disp('r1 test')
+% for i = 1:150
+%     test = r1(irisData(i,:));
+%     if test > 0
+%     end
+% end
+% 
+% disp('r2 test')
+% for i = 1:150
+%     test = r2(irisData(i,:));
+%     if test > 0
+%        
+%     end
+% end
+% 
+% disp('r3 test')
+% for i = 1:150
+%     test = r3(irisData(i,:));
+%     if test > 0
+%         
+%     end
+% end
+% 
+% disp('r4 test')
+% for i = 1:150
+%     test = r4(irisData(i,:));
+%     if test > 0
+%     end
+% end
 
 %classify(irisData(1,:))
 %blah = arrayfun(@classify, irisData)
@@ -56,10 +54,14 @@ for i = 1:length(irisData)
     classified(i,:) = classify(irisData(i,:));
 end
 
-for i = 1:length(irisClass)
-    hej = classified(i,:)'*classNumber(i,:);    
+for i = 1:length(classNumber)
+    if classified(i,1) == classNumber(i,1)
+        Result(i,:) = 1;
+    else 
+        Result(i,:) = 0;
+    end
 end
-hej
+Accuracy = sum(Result)/length(Result)
 function y = short(x)
     if (0 <= x) && (x <0.6)
         y = 1-1/0.6*x;
@@ -90,51 +92,47 @@ function y = middle(x)
 end
 function y = classname(x)
     if strcmp(x,'Iris-versicolor')
-        y =[1 0 0 1];
+        y =1;
     elseif strcmp(x,'Iris-setosa')
-        y = [0 1 0 0];
+        y = 2;
     elseif strcmp(x,'Iris-virginica')
-        y = [0 0 1 0];
+        y = 3;
     else
-        y = [-1 -1 -1 -1];
+        y = -1;
     end
 end
 
 function y = r1(x)
-if (max(short(x(1)),long(x(1))) > 0.5) && (max(middle(x(2)),long(x(2))) > 0.5) && (max(middle(x(3)),long(x(3))) > 0.5) && (middle(x(4)) > 0.5) 
-    y = 1;
-else
-    y = 0;
-end
+y = min([max(short(x(1)),long(x(1))) , max(middle(x(2)),long(x(2))), max(middle(x(3)),long(x(3))) , middle(x(4))]);
+
 end
 
 function y = r2(x)
-if (max(short(x(3)),middle(x(3))) > 0.5) && (short(x(4)) > 0.5) 
-    y = 1;
-else
-    y = 0;
-end
+y = min([max(short(x(3)),middle(x(3))) ,short(x(4))]);
+ 
 end
 
 function y = r3(x)
-if (max(short(x(2)),middle(x(2))) > 0.5) && (long(x(3)) > 0.5) && (long(x(4)) > 0.5) 
-    y = 1;
-else
-    y = 0;
-end
+y = min([max(short(x(2)),middle(x(2))) , long(x(3)) , long(x(4))]);
+ 
 end
 
 function y = r4(x)
-if (middle(x(1)) > 0.5) &&(max(short(x(2)),middle(x(2))) > 0.5) && (short(x(3)) > 0.5) && (long(x(4)) > 0.5) 
-    y = 1;
-else
-    y = 0;
-end
+y = min([middle(x(1)) , max(short(x(2)),middle(x(2))) , short(x(3)) , long(x(4))]);
+
 end
 
 
 
 function y = classify(x)
- y = [r1(x) r2(x) r3(x) r4(x)];
+ t = [r1(x) r2(x) r3(x) r4(x)];
+ m = max(t);
+ if t(1) == m || t(4) == m
+     y = 1;
+ elseif t(2) == m
+     y = 2;
+ elseif t(3) == m
+     y = 3;
+ end
 end
 
