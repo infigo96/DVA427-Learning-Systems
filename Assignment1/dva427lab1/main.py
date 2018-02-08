@@ -5,7 +5,11 @@ import os
 
 correct = 0
 #np.random.seed(0)
-weights = 2* np.random.random_sample((1, 4)) - 1
+#weights = np.array(4,3)
+weights = np.reshape((2* np.random.random_sample((1, 16)) - 1),(4,4))
+print(weights)
+#weights = 2* np.random.random_sample((1, 3)) - 1
+
 #print(weights)
 
 def sigmoid(x):
