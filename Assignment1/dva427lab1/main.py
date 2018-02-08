@@ -63,6 +63,7 @@ for j in range(0,1000):
   delta = (Sogmod-Sogmod*Sogmod)*np.transpose(0.5 + 0.25*(data[:1500,4])-np.transpose(Sogmod))
 
   Hdelta = ((Outis-Outis*Outis)*delta*weights[3,:])[:,:3]
+  delta = np.append(Hdelta,delta,axis=1)
   #Mdelta[:,3] = 1
   #Idelta = Mdelta*delta*weights[3,:]
 
