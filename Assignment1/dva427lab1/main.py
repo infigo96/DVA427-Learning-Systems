@@ -27,9 +27,9 @@ data[:,3] = 1
 Outis = sigmoid(np.matmul(data[1500:2201,0:4],np.transpose(weights[0:3,0:4]))) #2202 did not work
 Outis = np.append(Outis, np.ones((len(Outis),1)),axis=1)
 
-val = sigmoid(np.matmul(Outis[0:700,:],np.transpose(weights[3:4,0:4]))) #2202 did not work
+val = sigmoid(np.matmul(Outis[0:701,:],np.transpose(weights[3:4,0:4]))) #2202 did not work
 
-for i in range(1500,2200):
+for i in range(1500,2201):
 
   #val = sigmoid(np.dot(weights[0, 0:4], (data[i, 0:4])))
   if val[i-1500] >= 0.5 and data[i,4] == 1:
@@ -51,8 +51,12 @@ for j in range(0,1000):
   deathcorrect = 0
   survivedcorrect = 0
 
+  Outis = sigmoid(np.matmul(data[:1500, 0:4], np.transpose(weights[0:3, 0:4])))  # 2202 did not work
+  Outis = np.append(Outis, np.ones((len(Outis), 1)), axis=1)
 
-  Sogmod = sigmoid((data[:1500,0:4]).dot(np.transpose(weights[:,0:4])))
+  Sogmod = sigmoid(np.matmul(Outis[:1500,:], np.transpose(weights[3:4, 0:4])))  # 2202 did not work
+
+  #Sogmod = sigmoid((data[:1500,0:4]).dot(np.transpose(weights[:,0:4])))
   #current = np.sum(np.abs(0.5 - Sogmod))
 
   #print("Sogmoid" +str(Sogmod))
@@ -64,8 +68,9 @@ for j in range(0,1000):
   #print("weights" + str(weights))
   #print(weights)
 
-
-  val = sigmoid(np.matmul(data[1500:2201,0:4],np.transpose(weights[:,0:4]))) #2201 did not work
+  Outis = sigmoid(np.matmul(data[1500:2201, 0:4], np.transpose(weights[0:3, 0:4])))  # 2202 did not work
+  Outis = np.append(Outis, np.ones((len(Outis), 1)), axis=1)
+  val = sigmoid(np.matmul(Outis[0:701, :], np.transpose(weights[3:4, 0:4])))  # 2202 did not work
   # for i in range(0, 1500):
   #
   #   if data[i, 4] == 1:
