@@ -62,15 +62,14 @@ for j in range(0,1000):
   #print("Sogmoid" +str(Sogmod))
   delta = (Sogmod-Sogmod*Sogmod)*np.transpose(0.5 + 0.25*(data[:1500,4])-np.transpose(Sogmod))
 
-  Mdelta = (Outis-Outis*Outis)
-  Mdelta[:,3] = 1
-  Idelta = Mdelta*delta.dot(weights[3,:])
-  #print("delta" + str(delta))
-  #current = np.sum(np.abs(delta))
+  Hdelta = ((Outis-Outis*Outis)*delta*weights[3,:])[:,:3]
+  #Mdelta[:,3] = 1
+  #Idelta = Mdelta*delta*weights[3,:]
+
+
   weights =weights + 0.00005*np.transpose(delta[:1500,:]).dot(data[:1500,0:4])
   sizeDelta = np.linalg.norm(delta)
   #print("weights" + str(weights))
-  #print(weights)
 
   Outis = sigmoid(np.matmul(data[1500:2201, 0:4], np.transpose(weights[0:3, 0:4])))  # 2202 did not work
   Outis = np.append(Outis, np.ones((len(Outis), 1)), axis=1)
