@@ -39,7 +39,7 @@ for i in range(1500,2201):
 
 
   #print(correct)
-print(correct/700)
+print(correct/701)
 time.sleep(2)
 #--------------------------------------------------------------------------------------------
 
@@ -68,7 +68,7 @@ for j in range(0,1000):
   #Idelta = Mdelta*delta*weights[3,:]
 
 
-  weights =weights + 0.00005*np.transpose(delta[:1500,:]).dot(data[:1500,0:4])
+  weights =weights + 0.0005*np.transpose(delta[:1500,:]).dot(data[:1500,0:4])
   sizeDelta = np.linalg.norm(delta)
   #print("weights" + str(weights))
 
@@ -85,16 +85,20 @@ for j in range(0,1000):
   #
   #     if Sogmod[i] < 0.5:
   #       correct+=1
+  correct = 0
   for i in range(1500,2201):
 
     if data[i,4] == 1:
       alive +=1
       if val[i - 1500] >= 0.5:
         survivedcorrect+=1
+        correct+=1
     else:
       death+=1
       if val[i - 1500] < 0.5:
         deathcorrect+=1
+      else:
+        correct+=1
 
 
   #print(correct)
@@ -102,10 +106,9 @@ for j in range(0,1000):
   #time.sleep(1)
 
 print('Predicted survival rate is')
-print(np.sum(np.abs(val))/700)
+print(correct/700)
 print('Real survival rate is')
 print(str(1-(1502/2224)))
-
 ###############
 #print("Alive: " + str(survivedcorrect/death) + "  Dead: " + str(deathcorrect/death) + "  TOT: " + str((survivedcorrect+deathcorrect)/(alive+death)))
 #print('Accuracy is: ' + str((survivedcorrect+deathcorrect)/700))
