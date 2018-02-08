@@ -7,7 +7,7 @@ correct = 0
 #np.random.seed(0)
 #weights = np.array(4,3)
 weights = np.reshape((2* np.random.random_sample((1, 16)) - 1),(4,4))
-print(weights)
+#print(weights)
 #weights = 2* np.random.random_sample((1, 3)) - 1
 
 #print(weights)
@@ -22,10 +22,13 @@ data = np.genfromtxt('./assignment 1 titanic.dat', delimiter=',')
 data = np.c_[ data, np.ones(len(data))]
 data[:,4] = data[:,3]
 data[:,3] = 1
-
+#val = np.zeros((4,701))
 #-------------------------------------------------------------------------------------------
-val = sigmoid(np.matmul(data[1500:2201,0:4],np.transpose(weights[:,0:4]))) #2201 did not work
-  #print(val)
+Outis = sigmoid(np.matmul(data[1500:2201,0:4],np.transpose(weights[0:3,0:4]))) #2202 did not work
+Outis = np.append(Outis, np.ones((len(Outis),1)),axis=1)
+
+val = sigmoid(np.matmul(Outis[0:700,:],np.transpose(weights[3:4,0:4]))) #2202 did not work
+
 for i in range(1500,2200):
 
   #val = sigmoid(np.dot(weights[0, 0:4], (data[i, 0:4])))
