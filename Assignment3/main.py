@@ -96,7 +96,7 @@ def chernobyl(individual):
 abspath = os.path.abspath(__file__)
 dname = os.path.dirname(abspath)
 os.chdir(dname)
-data = np.genfromtxt('./berlin.txt', delimiter=',')
+data = np.genfromtxt('./berlin3.txt', delimiter=',')
 distanceMatrix= np.array([[Distance(i, j) for i in data] for j in data])
 ####################################
 oldPop = NewPop(popSize)
