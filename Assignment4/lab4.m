@@ -1,7 +1,7 @@
 clear;
 %clf;
 clc;
-
+ % Fix path finding
 A=importdata('cities.txt');
 C = [cell2mat(A.textdata(:,1)),cell2mat(A.textdata(:,2))];
 C = arrayfun(@uint8, C);
@@ -17,17 +17,22 @@ end %% (x,y) x is the starting location, y is the end location, the value is the
 currentDistance =  inf(26,1);
 currentDistance(6) = 0;
 
+pathTo{26} = [];
+pathTo{6} = [6]; % The path to point 6 is 6... can screw up the plot. 
+
 for iteration = 1:25
-    for i = 1:26
-       if currentDistance(i) ~= inf
-           for j = 1:26 % too high
-               if currentDistance(j) > currentDistance(i) + distanceMatrix(i,j)  
+    for i = 1:26 % This is the inner node
+       if currentDistance(i) ~= inf %if outter node has not a distance to itself it can't be reached yet
+           for j = 1:26 % too high? j is the outter node 
+               if currentDistance(j) > currentDistance(i) + distanceMatrix(i,j)
+                   pathTo{j} = [pathTo{i}, j];  %new path = old + path + node
                    currentDistance(j) =  currentDistance(i) + distanceMatrix(i,j);
                end
            end
        end
     end
 end
+disp(currentDistance)
 smart = double(inputPath);
 G = digraph([smart(:,1), smart(:,2)],[smart(:,2),smart(:,1)],[smart(:,3),smart(:,3)]);
 plot(G);
