@@ -17,15 +17,15 @@ end %% (x,y) x is the starting location, y is the end location, the value is the
 currentDistance =  inf(26,1);
 currentDistance(6) = 0;
 
-pathTo{26} = [];
-pathTo{6} = [6]; % The path to point 6 is 6... can screw up the plot. 
+pathTo{26} = []; %VERY IMPORTANT TO DO, else everything will be undefined thus crash and burn
+pathTo{6} = [6]; % The path to point 6 is 6
 
 for iteration = 1:25
     for i = 1:26 % This is the inner node
        if currentDistance(i) ~= inf %if outter node has not a distance to itself it can't be reached yet
            for j = 1:26 % too high? j is the outter node 
                if currentDistance(j) > currentDistance(i) + distanceMatrix(i,j)
-                   pathTo{j} = [pathTo{i}, j];  %new path = old + path + node
+                   pathTo{j} = [pathTo{i}, j];  %new path = the better Path + to the node
                    currentDistance(j) =  currentDistance(i) + distanceMatrix(i,j);
                end
            end
