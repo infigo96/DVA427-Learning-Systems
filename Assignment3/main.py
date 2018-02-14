@@ -61,8 +61,8 @@ def crossover(DistanceMatrix, parents):
     #print(parents)
     #-------- crossover, take out a few from the one and put them in the other
     amount = np.int_(np.ceil(((len(parents[1])-1)/2)* np.random.random_sample() + 2))
-    position1 = np.int_(np.ceil((len(parents[1])-1-amount)* np.random.random_sample() + 1))
-    position2 = np.int_(np.ceil((len(parents[1])-1-amount)* np.random.random_sample() + 1))
+    position1 = np.int_(np.ceil((len(parents[1])-amount)* np.random.random_sample()))
+    position2 = np.int_(np.ceil((len(parents[1])-amount)* np.random.random_sample()))
 
     #------take out a part
     toSwitch1 = parents[0,position1:position1 + amount]
@@ -116,7 +116,7 @@ for i in range(0,1000):
         oldBest = best
     else:
         place = np.int_(np.ceil((popSize) * np.random.random_sample())-1)
-        #newPop[place] = oldBest
+        newPop[place] = oldBest
 
     print(oldBestD)
     #if i%50 == 0: print("Gen: " +str(i)+ "     Dist: " + str(oldBestD))
