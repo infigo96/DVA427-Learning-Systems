@@ -36,3 +36,10 @@ disp(currentDistance)
 smart = double(inputPath);
 G = digraph([smart(:,1), smart(:,2)],[smart(:,2),smart(:,1)],[smart(:,3),smart(:,3)]);
 plot(G);
+
+for i = 1:26
+    if(~isempty(pathTo{i}))
+        pathTo{i} = arrayfun(@char,pathTo{i} +64);
+    end
+end
+
