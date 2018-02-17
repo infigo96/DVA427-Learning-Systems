@@ -21,9 +21,9 @@ FOURTHIRDS=1.3333333333333;
 
 % Update the four state variables, using Euler's method.
 
-    y(1)= x+STEP*x_dot;
-    y(2)=x_dot+STEP*xacc;
-    y(3)=theta+STEP*theta_dot;
-    y(4)=theta_dot+STEP*thetaacc;
+    y(1)= x+STEP*x_dot; %x
+    y(2)=x_dot+STEP*xacc; %x_dot
+    y(3)=theta+STEP*theta_dot; %theta
+    y(4)=theta_dot+STEP*thetaacc; %theta_dot
     
 
