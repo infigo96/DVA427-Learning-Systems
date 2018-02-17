@@ -5,8 +5,15 @@ x1 = -pi/6:0.5:pi/6; %theta. THe angle of the pendelum.
 x2 = -pi:0.1:pi; %theta dot. The angle velocity of the pendelum
 x3 = -2.4:0.1:2.4; %x pos. The position of the cart
 x4 = -10:1:10; %x dist dot. The speed of the cart
+% x1 = -pi/6:pi/6:pi/6; %theta. THe angle of the pendelum.
+% x2 = -pi:pi:pi; %theta dot. The angle velocity of the pendelum
+% x3 = -2.4:2.4:2.4; %x pos. The position of the cart
+% x4 = -10:10:10; %x dist dot. The speed of the cart
 actions = [-10, 10]; % Either force backward or forward
 maxEpisodes = 100; %Max episodes of attempts
+
+rewardFunc = @(x1,x2,x3,x4)(-1*((abs(x1)).^2) - (0.2*(abs(x2)).^2) - (0.1*(abs(x3)).^2) - (0.02*(abs(x4)).^2));
+
 
 %What do we need?
     %Current states
@@ -26,6 +33,9 @@ maxEpisodes = 100; %Max episodes of attempts
         end
     end
  end
+
+ R = rewardFunc(states(:,1),states(:,2),states(:,3),states(:,4));
+ Q = repmat(R,[1,2]);
 
 for episode = 1:maxEpisodes
     
