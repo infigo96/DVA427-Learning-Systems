@@ -1,4 +1,4 @@
-function y=simulate(force, x, x_dot, theta, theta_dot)
+function y=SimulatePendel(force, x, x_dot, theta, theta_dot)
 % compute the next states given the force and the current states
 
 GRAVITY=9.8;
