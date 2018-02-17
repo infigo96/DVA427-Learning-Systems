@@ -39,7 +39,7 @@ for i in range(1500,2201):
 
   #print(correct)
 print(correct/701)
-time.sleep(2)
+time.sleep(1)
 #-------------------------------------------------------------------------------------------- Now starts real training
 
 
@@ -58,11 +58,9 @@ for j in range(0,1000):
   delta = (Sogmod-Sogmod*Sogmod)*np.transpose(0.5 + 0.25*(data[:1500,4])-np.transpose(Sogmod)) #Single value, is the delta for the output sigmod node
 
   Hdelta = ((Outis-Outis*Outis)*delta*weights[3,:])[:,:3] #3x1  vector, delta for the 3 hidden layer  sigmod nodes
-  delta = np.append(Hdelta,delta,axis=1) #add together deltas to one matrix
-
-
-
-  weights = weights + 0.0005*np.transpose(delta[:1500,:]).dot(data[:1500,0:4]) #calculates all new weights from delta
+  #delta = np.append(Hdelta,delta,axis=1) #add together deltas to one matrix
+  weights[0:3, 0:4] = weights[0:3, 0:4] + 0.0005*np.transpose(Hdelta[:1500,:]).dot(data[:1500,0:4]) #calculates all new weights from delta 3x1500 * 1500x4
+  weights[3:4, 0:4] = weights[3:4, 0:4] + 0.0005*np.transpose(delta[:1500,:]).dot(Outis[:1500,0:4]) #calculates all new weights from delta  1x1500 * 1500x4
   #print("weights" + str(weights))
 
   # ---------------------------------------here we evaluate the data on the validation data to see the progress of the training. Not linked to the actual training.
