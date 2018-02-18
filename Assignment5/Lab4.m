@@ -1,6 +1,8 @@
 clc;
 clear;
 
+startState = [0 0 0 0];
+
 x1 = -pi/6:0.5:pi/6; %theta. THe angle of the pendelum.
 x2 = -pi:0.1:pi; %theta dot. The angle velocity of the pendelum
 x3 = -2.4:0.1:2.4; %x pos. The position of the cart
@@ -36,9 +38,16 @@ rewardFunc = @(x1,x2,x3,x4)(-1*((abs(x1)).^2) - (0.2*(abs(x2)).^2) - (0.1*(abs(x
 
  R = rewardFunc(states(:,1),states(:,2),states(:,3),states(:,4));
  Q = repmat(R,[1,2]);
+ 
+   %Initalize starting values
+ currentState = startState;
+ 
 
 for episode = 1:maxEpisodes
+ 
     
-   % SimulatePendel(1, 1, 1, 1, 1)
+   [~,stateIndex] = min(sum((states - repmat(currentState,[size(states,1),1])).^2,2));
+ 
+   [~,actionIndex] = max(Q(stateIndex,:));
 
-end
+end  % SimulatePendel(1, 1, 1, 1, 1)
