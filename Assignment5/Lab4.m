@@ -5,10 +5,10 @@ clf;
 startState = [0 0 0 0];
 learnRate = 0.5;
 
-x1 = -pi/6:0.1:pi/6; %theta. THe angle of the pendelum.
-x2 = -pi:0.1:pi; %theta dot. The angle velocity of the pendelum
-x3 = -2.4:0.1:2.4; %x pos. The position of the cart
-x4 = -10:1:10; %x dist dot. The speed of the cart
+x3 = -pi/6:0.1:pi/6; %theta. THe angle of the pendelum.
+x4 = -pi:0.3:pi; %theta dot. The angle velocity of the pendelum
+x1 = -2.4:0.2:2.4; %x pos. The position of the cart
+x2 = -10:1:10; %x dist dot. The speed of the cart
 % x1 = -pi/6:pi/6:pi/6; %theta. THe angle of the pendelum.
 % x2 = -pi:pi:pi; %theta dot. The angle velocity of the pendelum
 % x3 = -2.4:2.4:2.4; %x pos. The position of the cart
@@ -44,7 +44,7 @@ rewardFunc = @(x1,x2,x3,x4)(-1*((abs(x1)).^2) - (0.2*(abs(x2)).^2) - (0.1*(abs(x
    %Initalize starting values
  currentState = startState;
  
- %% Set up the pendulum plot
+ % Set up the pendulum plot%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
 panel = figure;
 panel.Position = [680 558 1000 400];
 panel.Color = [1 1 1];
@@ -64,10 +64,12 @@ axis([-1.2679 1.2679 -1 1]);
 plot(0.001,0,'.k','MarkerSize',50); % Pendulum axis point
 
 hold off
-%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
  
 
 for episode = 1:maxEpisodes
+    currentState = startState;
+    for session = 1:20
     
             set(f,'XData',[0 -sin(currentState(1))]);
             set(f,'YData',[0 cos(currentState(1))]);
@@ -79,12 +81,14 @@ for episode = 1:maxEpisodes
    nextState = SimulatePendel(actions(actionIndex), currentState(1), currentState(2), currentState(3), currentState(4)); 
    
    [~,nextStateIndex] = min(sum((states - repmat(nextState,[size(states,1),1])).^2,2)); %closest state as described by our state
-   R(nextStateIndex)
-   Q(stateIndex,actionIndex) + learnRate * (R(nextStateIndex) + max(Q(nextStateIndex,:)) - Q(stateIndex,actionIndex))
+   %R(nextStateIndex)
+   %Q(stateIndex,actionIndex) + learnRate * (R(nextStateIndex) + max(Q(nextStateIndex,:)) - Q(stateIndex,actionIndex))
    Q(stateIndex,actionIndex) = Q(stateIndex,actionIndex) + learnRate * (R(nextStateIndex) + max(Q(nextStateIndex,:)) - Q(stateIndex,actionIndex));
    
    currentState = nextState;
+   currentState
    pause(1)
+    end
    
    
 
