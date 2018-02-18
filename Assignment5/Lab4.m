@@ -9,14 +9,11 @@ x3 = -pi/6:0.1:pi/6; %theta. THe angle of the pendelum.
 x4 = -pi:0.3:pi; %theta dot. The angle velocity of the pendelum
 x1 = -2.4:0.2:2.4; %x pos. The position of the cart
 x2 = -10:1:10; %x dist dot. The speed of the cart
-% x1 = -pi/6:pi/6:pi/6; %theta. THe angle of the pendelum.
-% x2 = -pi:pi:pi; %theta dot. The angle velocity of the pendelum
-% x3 = -2.4:2.4:2.4; %x pos. The position of the cart
-% x4 = -10:10:10; %x dist dot. The speed of the cart
+
 actions = [-10, 10]; % Either force backward or forward
 maxEpisodes = 100; %Max episodes of attempts
 
-rewardFunc = @(x1,x2,x3,x4)(-1*((abs(x1)).^2) - (0.2*(abs(x2)).^2) - (0.1*(abs(x3)).^2) - (0.02*(abs(x4)).^2));
+rewardFunc = @(x1,x2,x3,x4)(-1*((abs(x3)).^2) - (0.3*(abs(x4)).^2) - (0.1*(abs(x1)).^2) - (0.02*(abs(x2)).^2));
 
 
 %What do we need?
@@ -69,10 +66,13 @@ hold off
 
 for episode = 1:maxEpisodes
     currentState = startState;
-    for session = 1:20
+    index = 0;
+    pause(1)
+    while(abs(currentState(1)) < 2.4 && abs(currentState(3))<pi/15)
+       index = index + 1;
     
-            set(f,'XData',[0 -sin(currentState(1))]);
-            set(f,'YData',[0 cos(currentState(1))]);
+            set(f,'XData',[0 -sin(currentState(3))]);
+            set(f,'YData',[0 cos(currentState(3))]);
  
     
    [~,stateIndex] = min(sum((states - repmat(currentState,[size(states,1),1])).^2,2)); %closest state as described by our state
@@ -86,8 +86,20 @@ for episode = 1:maxEpisodes
    Q(stateIndex,actionIndex) = Q(stateIndex,actionIndex) + learnRate * (R(nextStateIndex) + max(Q(nextStateIndex,:)) - Q(stateIndex,actionIndex));
    
    currentState = nextState;
-   currentState
-   pause(1)
+   clc;
+   disp('%%%%%%%%%%%%%%%%%%%%%%%%%%');
+   disp('cart distance is: ');
+   disp(currentState(1));
+   disp('cart speed is: ');
+   disp(currentState(1));
+   disp('Angle is: ');
+   disp(180/pi*currentState(3));
+   disp('Angle velocity is: ');
+   disp(currentState(4));
+   disp('Survival time');
+   disp(index*0.02);
+   pause(0.1)
+   
     end
    
    
