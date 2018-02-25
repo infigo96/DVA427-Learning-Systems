@@ -100,6 +100,9 @@ for episode = 1:maxEpisodes
        %R(nextStateIndex)
        %Q(stateIndex,actionIndex) + learnRate * (R(nextStateIndex) + max(Q(nextStateIndex,:)) - Q(stateIndex,actionIndex))
        Q(stateIndex,actionIndex) = Q(stateIndex,actionIndex) + learnRate * (R(nextStateIndex) + 0.5*max(Q(nextStateIndex,:)) - Q(stateIndex,actionIndex));
+       if(abs(nextState(1)) >= 2.4 && abs(nextState(3))>=pi/15)
+           Q(stateIndex,actionIndex) = Q(stateIndex,actionIndex) - 2; % extra penalty if going outside bounds
+       end
 
        currentState = nextState;
        clc;
