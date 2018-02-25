@@ -1,7 +1,7 @@
 clc;
 clear;
 clf;
-train = 1; %If 1 random starting position. If 0 [0 0 0 0]
+train = 0; %If 1 random starting position. If 0 [0 0 0 0]
 startState = [0 0 0 0];
 learnRate = 0.95;
 toPause = 0;
@@ -37,8 +37,7 @@ rewardFunc = @(x1,x2,x3,x4)(-1.5*((abs(x3)).^2) - (0.15*(abs(x4)).^2) - (0.1*(ab
  end
 
  R = rewardFunc(states(:,1),states(:,2),states(:,3),states(:,4));
- %Q = repmat(R,[1,2]);
- Q = zeros(length(R),2);
+ Q = repmat(R,[1,2]);
  if exist('SavedQ.mat', 'file') == 2
     load('SavedQ','Q')
  end
@@ -101,7 +100,7 @@ for episode = 1:maxEpisodes
        [~,nextStateIndex] = min(sum((states - repmat(nextState,[size(states,1),1])).^2,2)); %closest state as described by our state
        %R(nextStateIndex)
        %Q(stateIndex,actionIndex) + learnRate * (R(nextStateIndex) + max(Q(nextStateIndex,:)) - Q(stateIndex,actionIndex))
-       Q(stateIndex,actionIndex) = R(nextStateIndex) + 0.9*max(Q(nextStateIndex,:));
+       Q(stateIndex,actionIndex) = Q(stateIndex,actionIndex) + learnRate * (R(nextStateIndex) + 0.9*max(Q(nextStateIndex,:)) - Q(stateIndex,actionIndex));
 
        currentState = nextState;
        clc;
