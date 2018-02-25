@@ -1,7 +1,7 @@
 clc;
 clear;
 clf;
-train = 1; %If 1 random starting position. If 0 [0 0 0 0]
+train = 0; %If 1 random starting position. If 0 [0 0 0 0]
 startState = [0 0 0 0];
 learnRate = 0.95;
 toPause = 0;
@@ -82,16 +82,17 @@ for episode = 1:maxEpisodes
            set(f,'YData',[0 cos(currentState(3))]);
  
     
-        [~,stateIndex] = min(sum((states - repmat(currentState,[size(states,1),1])).^2,2)); %closest state as described by our state
-        if(abs(Q(stateIndex,1) - Q(stateIndex,2)) < 0.01) % if too similiar
-           if rand > 0.5
-               actionIndex = 1;
-           else
-               actionIndex = 2;
-           end
-        else
-            [~,actionIndex] = max(Q(stateIndex,:)); % take real selected one
-        end
+   [~,stateIndex] = min(sum((states - repmat(currentState,[size(states,1),1])).^2,2)); %closest state as described by our state
+   [~,actionIndex] = max(Q(stateIndex,:)); % Calculates the next action to do from Qmatrix
+%    if (rand()>0.05)
+%         [~,actionIndex] = max(Q(stateIndex,:)); % Calculates the next action to do from Qmatrix
+%    else
+%        if(rand >= 0.5)
+%        actionIndex = 1;
+%        else
+%        actionIndex = 2;
+%        end
+%    end
  
        %[~,actionIndex] = max(Q(stateIndex,:)); % Calculates the next action to do from Qmatrix
        nextState = SimulatePendel(actions(actionIndex), currentState(1), currentState(2), currentState(3), currentState(4)); 
@@ -99,7 +100,7 @@ for episode = 1:maxEpisodes
        [~,nextStateIndex] = min(sum((states - repmat(nextState,[size(states,1),1])).^2,2)); %closest state as described by our state
        %R(nextStateIndex)
        %Q(stateIndex,actionIndex) + learnRate * (R(nextStateIndex) + max(Q(nextStateIndex,:)) - Q(stateIndex,actionIndex))
-       Q(stateIndex,actionIndex) = Q(stateIndex,actionIndex) + learnRate * (R(nextStateIndex) + 0.5*max(Q(nextStateIndex,:)) - Q(stateIndex,actionIndex));
+       Q(stateIndex,actionIndex) = Q(stateIndex,actionIndex) + learnRate * (R(nextStateIndex) + 0.9*max(Q(nextStateIndex,:)) - Q(stateIndex,actionIndex));
 
        currentState = nextState;
        clc;
