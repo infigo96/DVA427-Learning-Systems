@@ -1,20 +1,20 @@
 clc;
 clear;
 clf;
-train = 0;
+train = 0; %If 1 random starting position. If 0 [0 0 0 0]
 startState = [0 0 0 0];
 learnRate = 0.95;
 toPause = 0;
 
 x3 = -pi/6:0.04:pi/6; %theta. The angle of the pendelum.
 x4 = -pi:0.3:pi; %theta dot. The angle velocity of the pendelum
-x1 = -2.4:0.6:2.4; %x pos. The position of the cart
+x1 = -2.4:0.4:2.4; %x pos. The position of the cart
 x2 = -10:2.5:10; %x dist dot. The speed of the cart
 
 actions = [-10, 10]; % Either force backward or forward
 maxEpisodes = 1000; %Max episodes of attempts
 
-rewardFunc = @(x1,x2,x3,x4)(-1*((abs(x3)).^2) - (0.25*(abs(x4)).^2) - (0.1*(abs(x1)).^2) - (0.05*(abs(x2)).^2));
+rewardFunc = @(x1,x2,x3,x4)(-1.5*((abs(x3)).^2) - (0.15*(abs(x4)).^2) - (0.1*(abs(x1)).^2) - (0.05*(abs(x2)).^2));
 
 
 %What do we need?
