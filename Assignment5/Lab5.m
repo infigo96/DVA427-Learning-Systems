@@ -12,7 +12,7 @@ x1 = -2.4:0.4:2.4; %x pos. The position of the cart
 x2 = -10:2.5:10; %x dist dot. The speed of the cart
 
 actions = [-10, 10]; % Either force backward or forward
-maxEpisodes = 10000; %Max episodes of attempts
+maxEpisodes = 1000; %Max episodes of attempts
 
 rewardFunc = @(x1,x2,x3,x4)(-1.5*((abs(x3)).^2) - (0.15*(abs(x4)).^2) - (0.1*(abs(x1)).^2) - (0.05*(abs(x2)).^2));
 
@@ -101,7 +101,7 @@ for episode = 1:maxEpisodes
        %Q(stateIndex,actionIndex) + learnRate * (R(nextStateIndex) + max(Q(nextStateIndex,:)) - Q(stateIndex,actionIndex))
        Q(stateIndex,actionIndex) = Q(stateIndex,actionIndex) + learnRate * (R(nextStateIndex) + 0.5*max(Q(nextStateIndex,:)) - Q(stateIndex,actionIndex));
        if(abs(nextState(1)) >= 2.4 && abs(nextState(3))>=pi/15)
-           Q(stateIndex,actionIndex) = Q(stateIndex,actionIndex) - 1; % extra penalty if going outside bounds
+           Q(stateIndex,actionIndex) = Q(stateIndex,actionIndex) - 2; % extra penalty if going outside bounds
        end
 
        currentState = nextState;
