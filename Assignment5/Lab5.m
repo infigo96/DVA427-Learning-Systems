@@ -7,13 +7,13 @@ learnRate = 0.8;
 toPause = 0;
 
 if(train == 0)
-    toPause = 0.2;
+    toPause = 0.05;
 end
 
-x3 = -pi/15:pi/30:pi/15; %theta. The angle of the pendelum.  
-x4 = -pi:pi/2:pi; %theta dot. The angle velocity of the pendelum
+x3 = -pi/15:pi/60:pi/15; %theta. The angle of the pendelum.  
+x4 = -pi/4:pi/8:pi/4; %theta dot. The angle velocity of the pendelum
 x1 = -2.4:1.2:2.4; %x pos. The position of the cart
-x2 = -10:5:10; %x dist dot. The speed of the cart
+x2 = -2:1:2; %x dist dot. The speed of the cart
 
 actions = [-10, 10]; % Either force backward or forward
 maxEpisodes = 10000000000; %Max episodes of attempts
@@ -77,7 +77,7 @@ for episode = 1:maxEpisodes
     if train == 0
         currentState = startState;
     elseif train == 1
-        currentState = [-2.4 + (2.4+2.4)*rand, 0 ,-pi/20 + (pi/10)*rand, 0];
+        currentState = [-1.2 + (2.4)*rand, 0 ,-pi/40 + (pi/20)*rand, 0];
     end
     index = 0;
 
@@ -117,7 +117,7 @@ for episode = 1:maxEpisodes
            Q(stateIndex,actionIndex) = Q(stateIndex,actionIndex) + 1/timesReached(stateIndex,actionIndex) * (0.9*max(Q(nextStateIndex,:)) - Q(stateIndex,actionIndex));
            %Q(stateIndex,actionIndex) = Q(stateIndex,actionIndex) 
           if(abs(nextState(1)) > 2.4 || abs(nextState(3))>pi/15)
-               Q(stateIndex,actionIndex) = Q(stateIndex,actionIndex) -1/timesReached(stateIndex,actionIndex)*1/2000;
+               Q(stateIndex,actionIndex) = Q(stateIndex,actionIndex)-1/timesReached(stateIndex,actionIndex);
           elseif (index > 1000)
            %    Q(stateIndex,actionIndex) = Q(stateIndex,actionIndex) +  timesReached(stateIndex,actionIndex)*index/2000;
           end
