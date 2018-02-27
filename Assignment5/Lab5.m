@@ -3,9 +3,12 @@ clear;
 clf;
 train = 1; %If 1 random starting position. If 0 [0 0 0 0]
 startState = [0 0 0 0];
-learnRate = 0.95;
+learnRate = 0.8;
 toPause = 0;
-learning = 1; %if have random selection of action
+
+if(train == 0)
+    toPause = 0.2;
+end
 
 x3 = -pi/15:pi/30:pi/15; %theta. The angle of the pendelum.  
 x4 = -pi:pi/2:pi; %theta dot. The angle velocity of the pendelum
@@ -39,6 +42,7 @@ maxEpisodes = 10000000000; %Max episodes of attempts
 
  %R = rewardFunc(states(:,1),states(:,2),states(:,3),states(:,4));
  %Q = repmat(R,[1,2]);4
+ timesReached = zeros(length(states),2);
  Q = zeros(length(states), 2);
  if exist('SavedQ.mat', 'file') == 2
     load('SavedQ','Q')
@@ -91,7 +95,7 @@ for episode = 1:maxEpisodes
 %    else
 %        actionIndex = 2
 %    end
-   if (rand()>0.5 && ~train)
+   if (rand()>0.1 || ~train)
         [~,actionIndex] = max(Q(stateIndex,:)); % Calculates the next action to do from Qmatrix
    else
        if(rand >= 0.5)
@@ -106,14 +110,16 @@ for episode = 1:maxEpisodes
        nextState = SimulatePendel(actions(actionIndex), currentState(1), currentState(2), currentState(3), currentState(4)); 
 
        [~,nextStateIndex] = min(sum((states - repmat(nextState,[size(states,1),1])).^2,2)); %closest state as described by our state
-       if(learning == 1)
+       if(train == 1)
            %R(nextStateIndex)
            %Q(stateIndex,actionIndex) + learnRate * (R(nextStateIndex) + max(Q(nextStateIndex,:)) - Q(stateIndex,actionIndex))
-           Q(stateIndex,actionIndex) = Q(stateIndex,actionIndex) + learnRate * (0.9*max(Q(nextStateIndex,:)) - Q(stateIndex,actionIndex));
+           timesReached(stateIndex,actionIndex) = timesReached(stateIndex,actionIndex) + 1;
+           Q(stateIndex,actionIndex) = Q(stateIndex,actionIndex) + 1/timesReached(stateIndex,actionIndex) * (0.9*max(Q(nextStateIndex,:)) - Q(stateIndex,actionIndex));
+           %Q(stateIndex,actionIndex) = Q(stateIndex,actionIndex) 
           if(abs(nextState(1)) > 2.4 || abs(nextState(3))>pi/15)
-          %     Q(stateIndex,actionIndex) = Q(stateIndex,actionIndex) -1;
-          elseif (index > 10)
-              Q(stateIndex,actionIndex) = Q(stateIndex,actionIndex) + (index^1.2)/20;
+               Q(stateIndex,actionIndex) = Q(stateIndex,actionIndex) -1/timesReached(stateIndex,actionIndex)*1/2000;
+          elseif (index > 1000)
+           %    Q(stateIndex,actionIndex) = Q(stateIndex,actionIndex) +  timesReached(stateIndex,actionIndex)*index/2000;
           end
        end
 
