@@ -1,7 +1,7 @@
 clc;
 clear;
 clf;
-train = 1; %If 1 random starting position. If 0 [0 0 0 0]
+train = 0; %If 1 random starting position. If 0 [0 0 0 0]
 startState = [0 0 0 0];
 learnRate = 0.8;
 toPause = 0;
