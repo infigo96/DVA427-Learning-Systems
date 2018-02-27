@@ -1,20 +1,21 @@
 clc;
 clear;
 clf;
-train = 0; %If 1 random starting position. If 0 [0 0 0 0]
+train = 1; %If 1 random starting position. If 0 [0 0 0 0]
 startState = [0 0 0 0];
 learnRate = 0.95;
 toPause = 0;
+learning = 1; %if have random selection of action
 
-x3 = -pi/6:0.04:pi/6; %theta. The angle of the pendelum.
-x4 = -pi:0.3:pi; %theta dot. The angle velocity of the pendelum
-x1 = -2.4:0.4:2.4; %x pos. The position of the cart
-x2 = -10:2.5:10; %x dist dot. The speed of the cart
+x3 = -pi/15:pi/30:pi/15; %theta. The angle of the pendelum.  
+x4 = -pi:pi/2:pi; %theta dot. The angle velocity of the pendelum
+x1 = -2.4:1.2:2.4; %x pos. The position of the cart
+x2 = -10:5:10; %x dist dot. The speed of the cart
 
 actions = [-10, 10]; % Either force backward or forward
-maxEpisodes = 1000; %Max episodes of attempts
+maxEpisodes = 10000000000; %Max episodes of attempts
 
-rewardFunc = @(x1,x2,x3,x4)(-1.5*((abs(x3)).^2) - (0.15*(abs(x4)).^2) - (0.1*(abs(x1)).^2) - (0.05*(abs(x2)).^2));
+%rewardFunc = @(x1,x2,x3,x4)(-1.5*((abs(x3)).^2) - (0.15*(abs(x4)).^2) - (0.1*(abs(x1)).^2) - (0.05*(abs(x2)).^2));
 
 
 %What do we need?
@@ -36,8 +37,9 @@ rewardFunc = @(x1,x2,x3,x4)(-1.5*((abs(x3)).^2) - (0.15*(abs(x4)).^2) - (0.1*(ab
     end
  end
 
- R = rewardFunc(states(:,1),states(:,2),states(:,3),states(:,4));
- Q = repmat(R,[1,2]);
+ %R = rewardFunc(states(:,1),states(:,2),states(:,3),states(:,4));
+ %Q = repmat(R,[1,2]);4
+ Q = zeros(length(states), 2);
  if exist('SavedQ.mat', 'file') == 2
     load('SavedQ','Q')
  end
@@ -75,7 +77,7 @@ for episode = 1:maxEpisodes
     end
     index = 0;
 
-    while(abs(currentState(1)) < 2.4 && abs(currentState(3))<pi/15 && index < 20000 )
+    while(abs(currentState(1)) <= 2.4 && abs(currentState(3))<=pi/15)
        index = index + 1;
     
            set(f,'XData',[0 -sin(currentState(3))]);
@@ -83,24 +85,37 @@ for episode = 1:maxEpisodes
  
     
    [~,stateIndex] = min(sum((states - repmat(currentState,[size(states,1),1])).^2,2)); %closest state as described by our state
-   [~,actionIndex] = max(Q(stateIndex,:)); % Calculates the next action to do from Qmatrix
-%    if (rand()>0.05)
-%         [~,actionIndex] = max(Q(stateIndex,:)); % Calculates the next action to do from Qmatrix
+   %[~,actionIndex] = max(Q(stateIndex,:)); % Calculates the next action to do from Qmatrix
+%    if(Q(stateIndex,1)^2/ ( Q(stateIndex,1)^2 + Q(stateIndex,2)^2) >= rand)
+%        actionIndex = 1
 %    else
-%        if(rand >= 0.5)
-%        actionIndex = 1;
-%        else
-%        actionIndex = 2;
-%        end
+%        actionIndex = 2
 %    end
+   if (rand()>0.5 && ~train)
+        [~,actionIndex] = max(Q(stateIndex,:)); % Calculates the next action to do from Qmatrix
+   else
+       if(rand >= 0.5)
+       actionIndex = 1;
+       else
+       actionIndex = 2;
+       end
+   end
  
+
        %[~,actionIndex] = max(Q(stateIndex,:)); % Calculates the next action to do from Qmatrix
        nextState = SimulatePendel(actions(actionIndex), currentState(1), currentState(2), currentState(3), currentState(4)); 
 
        [~,nextStateIndex] = min(sum((states - repmat(nextState,[size(states,1),1])).^2,2)); %closest state as described by our state
-       %R(nextStateIndex)
-       %Q(stateIndex,actionIndex) + learnRate * (R(nextStateIndex) + max(Q(nextStateIndex,:)) - Q(stateIndex,actionIndex))
-       Q(stateIndex,actionIndex) = Q(stateIndex,actionIndex) + learnRate * (R(nextStateIndex) + 0.9*max(Q(nextStateIndex,:)) - Q(stateIndex,actionIndex));
+       if(learning == 1)
+           %R(nextStateIndex)
+           %Q(stateIndex,actionIndex) + learnRate * (R(nextStateIndex) + max(Q(nextStateIndex,:)) - Q(stateIndex,actionIndex))
+           Q(stateIndex,actionIndex) = Q(stateIndex,actionIndex) + learnRate * (0.9*max(Q(nextStateIndex,:)) - Q(stateIndex,actionIndex));
+          if(abs(nextState(1)) > 2.4 || abs(nextState(3))>pi/15)
+          %     Q(stateIndex,actionIndex) = Q(stateIndex,actionIndex) -1;
+          elseif (index > 10)
+              Q(stateIndex,actionIndex) = Q(stateIndex,actionIndex) + (index^1.2)/20;
+          end
+       end
 
        currentState = nextState;
        clc;
@@ -118,12 +133,12 @@ for episode = 1:maxEpisodes
        disp(currentState(4));
        disp('Survival time');
        disp(index*0.02);
-        if (toPause > 0)
+        if (abs(currentState(1)) <= 2.4 && abs(currentState(3))<=pi/15 && index < 20000 )
                 pause(toPause)
         end
 
     end
-    if (mod(episode, 100) == 0)
+    if (mod(episode, 20) == 0)
         save('SavedQ','Q')
     end
    
