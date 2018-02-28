@@ -7,7 +7,7 @@ learnRate = 0.8;
 toPause = 0;
 
 if(train == 0)
-    toPause = 0.05;
+    toPause = 0.002;
 end
 
 x3 = -pi/15:pi/60:pi/15; %theta. The angle of the pendelum.  
@@ -52,22 +52,23 @@ maxEpisodes = 10000000000; %Max episodes of attempts
  
  % Set up the pendulum plot%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
 panel = figure;
-panel.Position = [680 558 1000 400];
+%panel.Position = [680 558 1000 400];
 panel.Color = [1 1 1];
-subplot(1,4,1)
+%subplot(1,4,1)
 
 hold on
  % Axis for the pendulum animation
-f = plot(0,0,'b','LineWidth',10); % Pendulum stick
+f = plot(0,0,'b','LineWidth',6); % Pendulum stick
 axPend = f.Parent;
 axPend.XTick = []; % No axis stuff to see
 axPend.YTick = [];
 axPend.Visible = 'off';
-axPend.Position = [0.01 0.5 0.3 0.3];
+%axPend.Position = [0.01 0.5 0.3 0.3];
 axPend.Clipping = 'off';
 axis equal
 axis([-1.2679 1.2679 -1 1]);
-plot(0.001,0,'.k','MarkerSize',50); % Pendulum axis point
+line([-2.4 2.4],[0 0],'color', 'red')
+g  = plot(0.001,0,'.k','MarkerSize',30); % Pendulum axis point
 
 hold off
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -84,7 +85,8 @@ for episode = 1:maxEpisodes
     while(abs(currentState(1)) <= 2.4 && abs(currentState(3))<=pi/15)
        index = index + 1;
     
-           set(f,'XData',[0 -sin(currentState(3))]);
+           set(f,'XData',[currentState(1) currentState(1)+ sin(currentState(3))]);
+           set(g,'XData',currentState(1));
            set(f,'YData',[0 cos(currentState(3))]);
  
     
