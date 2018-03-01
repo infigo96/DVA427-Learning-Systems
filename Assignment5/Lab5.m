@@ -1,5 +1,6 @@
 clc;
 clear;
+toPlot = 1; %plot the first history of the cart and rod
 train = 0; %If 1 random starting position and training. If 0 [0 0 0 0] and no training
 startState = [0 0 0 0];
 learnRate = 0.8;
@@ -125,11 +126,29 @@ for episode = 1:maxEpisodes
         if (abs(currentState(1)) <= 2.4 && abs(currentState(3))<=pi/15 && index < 20000 )
                 pause(toPause)
         end
-
+        if toPlot == 1
+            grap(index,1) = index*0.02;
+            grap(index,2) = currentState(1);
+            grap(index,3) = currentState(3)*180/pi;
+        end
     end
-    if (mod(episode, 20) == 0)
+    if (mod(episode, 20) == 0 && train == 1)
         save('SavedQ','Q')
     end
-   
+    if toPlot == 1
+       figure;
+       plot(grap(:,2),grap(:,1));
+       ylabel("time (s)");
+       xlabel("Cart position from center (m)");
+       xlim([-2.4,2.4]);
+       title("Cart position");
+       figure;
+       plot(grap(:,3),grap(:,1));
+       ylabel("time (s)");
+       xlabel("Rod angle (Degrees)");
+       xlim([-12,12]);
+       title("Rod angle");
+       toPlot = 0;
+    end
 
 end  % SimulatePendel(1, 1, 1, 1, 1)
